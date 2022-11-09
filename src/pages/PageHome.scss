@@ -1,0 +1,34 @@
+@import '../scssStyles/mixins';
+
+.home-page {
+    margin: 5%;
+    width: 100vw;
+}
+
+.home-landing {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+}
+
+.home-landing-connect {
+    display: flex;
+    flex-direction: row;
+}
+
+.home-landing-name {
+  width: 50%;
+}
+
+.contact-bar {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.home-contact-icon {
+  height: 50px;
+  margin: 5px;
+}
