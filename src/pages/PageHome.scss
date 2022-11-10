@@ -1,8 +1,8 @@
 @import '../scssStyles/mixins';
 
 .home-page {
-    margin: 5%;
-    width: 100vw;
+    //margin: 5%;
+    width: 100%;
 }
 
 .home-landing {
@@ -10,25 +10,99 @@
     flex-direction: row;
     align-items: center;
     justify-content: center;
+
+    padding: 12% 5%;
+
+    animation: 3s ease-out 0s 1 slide-up;
 }
 
 .home-landing-connect {
-    display: flex;
-    flex-direction: row;
+  display: flex;
+  flex-direction: column;
+
+  justify-content: center;
+  align-items: center;
+  
+  width: 50%;
 }
 
 .home-landing-name {
-  width: 50%;
+  width: 100%;
+  margin-bottom: 3%;
+
+  pointer-events: none;
+
+
 }
 
 .contact-bar {
   display: flex;
   flex-direction: row;
-  justify-content: space-between;
+  justify-content: space-around;
+  align-items: center;
+
+  width: 80%;
+}
+
+.home-contact-icon-div {
+  display: flex;
+  justify-content: center;
   align-items: center;
 }
 
 .home-contact-icon {
-  height: 50px;
-  margin: 5px;
+  width: 35%;
+  padding: 10px;
+
+  transition: transform 200ms;
+
+  &:hover {
+    transform: scale(1.04);
+    transition: transform 200ms;
+  }
+  &:active {
+    transform: scale(0.97);
+    transition: transform 200ms;
+  }
+}
+
+.home-character {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  width: 50%;
+}
+
+.home-character-img {
+  position: absolute;
+  width: 100%;
+}
+
+.on-hover {
+  display: none;
+
+  &:hover {
+    display: unset;
+  }
+}
+
+.no-hover {
+  display: unset;
+
+  &:hover {
+    display: none;
+  }
+}
+
+@keyframes slide-up {
+  0% {
+    transform: translateY(-50%);   
+    opacity: 0%;
+  }
+  100% {
+    transform: translateY(0%);
+    opacity: 100%;
+  }
 }

@@ -2,7 +2,10 @@ import React from "react";
 import "./PageHome.scss";
 
 import name from "../assets/name.svg"
-import character from "../assets/character/character1.png"
+import character1 from "../assets/character/character1.png"
+import character2 from "../assets/character/character2.png"
+import character3 from "../assets/character/character3.png"
+import character4 from "../assets/character/character4.png"
 
 import { contacts } from "../utils/about";
 
@@ -43,7 +46,7 @@ const HomeLanding = () => {
           <div className="contact-bar">
             {contacts.map((contact) => {
               return (
-                <div key={contact.label}>
+                <div className="home-contact-icon-div" key={contact.label}>
                   <a href={contact.link} target="_blank" rel="noreferrer">
                     <img className="home-contact-icon" src={contact.icon} alt={contact.label} />
                   </a>
@@ -52,8 +55,12 @@ const HomeLanding = () => {
             })}
           </div>
         </div>
-        <div className="character">
-          <img src={character} alt="character" />
+        <div className="home-character">
+          <img className="home-character-img no-hover" src={character1} alt="character" />
+          <img className="home-character-img on-hover" src={character1} alt="character" />
+          <img className="home-character-img on-hover" src={character2} alt="character" />
+          <img className="home-character-img on-hover" src={character3} alt="character" />
+          <img className="home-character-img on-hover" src={character4} alt="character" />
         </div>
 
       </div>
