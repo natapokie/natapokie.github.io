@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import "./PageHome.scss";
 
 import name from "../assets/name.svg"
@@ -8,6 +8,13 @@ import character3 from "../assets/character/character3.png"
 import character4 from "../assets/character/character4.png"
 
 import { contacts } from "../utils/about";
+
+let characterFrames = [
+  character1, 
+  character2,
+  character3, 
+  character4,
+]
 
 const PageHome = () => {
 
@@ -19,23 +26,6 @@ const PageHome = () => {
         </>
     );
 };
-
-// const PageHomeMobile = () => { 
-
-//     return(
-//         <></>
-//     );
-// }
-
-// const PageHomeDesktop = () => {
-//     return(
-//         <>
-//         <div className="home-landing">
-
-//         </div>
-//         </>
-//     )
-// }
 
 const HomeLanding = () => {
   return (
@@ -55,18 +45,47 @@ const HomeLanding = () => {
             })}
           </div>
         </div>
-        <div className="home-character">
-          <img className="home-character-img no-hover" src={character1} alt="character" />
-          <img className="home-character-img on-hover" src={character1} alt="character" />
-          <img className="home-character-img on-hover" src={character2} alt="character" />
-          <img className="home-character-img on-hover" src={character3} alt="character" />
-          <img className="home-character-img on-hover" src={character4} alt="character" />
-        </div>
-
+        <CharacterAnimation />
       </div>
     
     </>
   );
+}
+
+
+
+
+const CharacterAnimation = () => {
+
+  const [frameNum, setFrameNum] = useState(0); // this is the frame in the array
+
+  useEffect(() => {
+
+    console.log(frameNum);
+
+    if (frameNum === 0) {
+      setTimeout(() => {
+        setFrameNum(frameNum + 1);
+      }, 5000)
+    } else if (frameNum === characterFrames.length - 1) {
+      setTimeout(() => {
+        setFrameNum(0);
+      }, 300)
+    } else {
+      setTimeout(() => {
+        setFrameNum(frameNum + 1);
+      }, 50)
+    }
+    
+  }, [frameNum]);
+
+  return(
+    <>
+      <div className="home-character">
+        <img className="home-character-img" src={characterFrames[frameNum]} alt="character" />
+      </div>
+    </>
+  )
 }
 
 export { PageHome }
