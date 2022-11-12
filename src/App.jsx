@@ -1,36 +1,90 @@
 // import logo from './logo.svg';
-// import './App.css';
+import './App.scss';
 
-import React from 'react';
+import React, { useEffect, useState } from 'react';
+import PropTypes from 'prop-types';
 import { BrowserRouter, useLocation, Route, Routes } from 'react-router-dom';
 import { TransitionGroup, CSSTransition } from 'react-transition-group';
 
+import star from '../src/assets/star.svg'
 import { pages } from './utils/pages';
 
 function App() {
-  return (
 
-    <>
+  const [globalCoord, setGlobalCoords] = useState({x: 0, y: 0});
+  const [click, setClick] = useState(false);
+
+  useEffect(() => {
+
+    // get global mouse coordinates
+    const handleWindowMouseMove = (e) => {
+      setGlobalCoords(
+        {
+          // x: e.screenX,
+          // y: e.screenY, 
+          x: e.clientX,
+          y: e.clientY,
+        }
+      );
+    };
+    window.addEventListener('mousemove', handleWindowMouseMove);
+
+    return () => {
+      window.removeEventListener('mousedown', handleWindowMouseMove);
+    };
+
+  }, []);
+
+  return (
+    <div className='page' onClick={() => {
+      console.log("xcoord:", globalCoord.x, " ycoord:", globalCoord.y);
+      setClick(true);
+      setTimeout(() => {
+        setClick(false)
+      }, 1000)
+    }}>
+    <Stars xcoord={globalCoord.x} ycoord={globalCoord.y} click={click} />
       <BrowserRouter>
         <TransitionRoutes />
       </BrowserRouter>
+    </div>
+  );
+}
+
+const Stars = ({xcoord, ycoord, click}) => {
+  
+  const [currentClick, setCurrentClick] = useState(click);
+  //const [style, setStyle] = useState(``);
+
+  console.log("currentClick:", currentClick);
+  console.log("click:", click);
+  console.log('x', xcoord, 'y', ycoord);
+
+  // const setCoord = (x, y) => {
+  //   return (
+  //     `position: absolute;
+  //     left: ${x}px;
+  //     right: ${y}px;`)
+  // }
+
+  useEffect(() => { 
+    setCurrentClick(click);
+    // const newStyle = setCoord(xcoord, ycoord);
+    // setStyle(newStyle);
+  }, [click, xcoord, ycoord])
+
+  return(
+    <>
+    {!currentClick ? 
+    <></> 
+    :
+    <>
+      <img className="star" alt="star" style={{top: ycoord + 'px', left: xcoord + 'px'}} src={star} />
+      <img className="star" alt="star" style={{top: ycoord + 'px', left: xcoord + 'px'}} src={star} />
+      <img className="star" alt="star" style={{top: ycoord + 'px', left: xcoord + 'px'}} src={star} />
     </>
-    // <div className="App">
-    //   <header className="App-header">
-    //     <img src={logo} className="App-logo" alt="logo" />
-    //     <p>
-    //       Edit <code>src/App.js</code> and save to reload.
-    //     </p>
-    //     <a
-    //       className="App-link"
-    //       href="https://reactjs.org"
-    //       target="_blank"
-    //       rel="noopener noreferrer"
-    //     >
-    //       Learn React
-    //     </a>
-    //   </header>
-    // </div>
+    }
+    </>
   );
 }
 
@@ -63,6 +117,12 @@ const TransitionRoutes = () => {
     </TransitionGroup>
   );
 };
+
+Stars.propTypes = {
+  xcoord: PropTypes.number,
+  ycoord: PropTypes.number,
+  click: PropTypes.bool,
+}
 
 
 export default App;

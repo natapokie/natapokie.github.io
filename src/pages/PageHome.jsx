@@ -61,12 +61,10 @@ const CharacterAnimation = () => {
 
   useEffect(() => {
 
-    console.log(frameNum);
-
     if (frameNum === 0) {
       setTimeout(() => {
         setFrameNum(frameNum + 1);
-      }, 5000)
+      }, 3500)
     } else if (frameNum === characterFrames.length - 1) {
       setTimeout(() => {
         setFrameNum(0);
