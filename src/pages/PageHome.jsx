@@ -7,7 +7,7 @@ import character2 from "../assets/character/character2.png"
 import character3 from "../assets/character/character3.png"
 import character4 from "../assets/character/character4.png"
 
-import { contacts, temp1, temp2 } from "../utils/about";
+import { contacts, temp1, temp2, temp3 } from "../utils/about";
 
 let characterFrames = [
   character1, 
@@ -34,7 +34,8 @@ const HomeLanding = () => {
         <div className="home-landing-connect">
           <h1 className="helloim">{temp1.toUpperCase()}</h1>
           <img className="home-landing-name" src={name} alt="Natalie Chan" />
-          <h3 className="student">{temp2.toUpperCase()}</h3>
+          <h3>{temp2.toUpperCase()}</h3>
+          <h3 className="student">{temp3.toUpperCase()}</h3>
           <div className="contact-bar">
             {contacts.map((contact) => {
               return (

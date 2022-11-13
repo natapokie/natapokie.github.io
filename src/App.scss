@@ -79,7 +79,7 @@ a:hover {
   //width: 2%;
   height: auto;
 
-  animation-name: spin-star;//, translate-star;
+  animation-name: spin-star; //, translate-star;
   animation-duration: 1500ms;
   animation-iteration-count: 1;
 
@@ -93,9 +93,11 @@ a:hover {
 @keyframes spin-star {
   from {
     transform: rotate(0deg);
+    opacity: 100%;
   }
   to {
     transform: rotate(360deg);
+    opacity: 0%;
   }
 }
 
@@ -103,13 +105,13 @@ a:hover {
   from {
     transform: translateX(0);
     transform: translateY(0);
-    opacity: 100%;
+    
 
   }
   to {
     transform: translateX(random(100) + 'px');
     transform: translateY(random(100) + 'px');
-    opacity: 0%;
+    
   }
 }
 
