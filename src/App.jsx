@@ -56,9 +56,9 @@ const Stars = ({xcoord, ycoord, click}) => {
   const [currentClick, setCurrentClick] = useState(click);
   //const [style, setStyle] = useState(``);
 
-  console.log("currentClick:", currentClick);
-  console.log("click:", click);
-  console.log('x', xcoord, 'y', ycoord);
+  // console.log("currentClick:", currentClick);
+  // console.log("click:", click);
+  // console.log('x', xcoord, 'y', ycoord);
 
   // const setCoord = (x, y) => {
   //   return (
@@ -79,9 +79,9 @@ const Stars = ({xcoord, ycoord, click}) => {
     <></> 
     :
     <>
-      <img className="star" alt="star" style={{top: ycoord + 'px', left: xcoord + 'px'}} src={star} />
-      <img className="star" alt="star" style={{top: ycoord + 'px', left: xcoord + 'px'}} src={star} />
-      <img className="star" alt="star" style={{top: ycoord + 'px', left: xcoord + 'px'}} src={star} />
+      <img className="star" alt="star" style={{width: '0.8%', top: (ycoord + 15) + 'px', left: (xcoord -10) + 'px'}} src={star} />
+      <img className="star" alt="star" style={{width: '1.25%', top: (ycoord - 15) + 'px', left: (xcoord - 20) + 'px'}} src={star} />
+      <img className="star" alt="star" style={{width: '2%', top: ycoord + 'px', left: xcoord + 'px'}} src={star} />
     </>
     }
     </>

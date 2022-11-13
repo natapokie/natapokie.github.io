@@ -28,19 +28,13 @@
 
 .home-landing-name {
   width: 100%;
-  margin-bottom: 3%;
-
   pointer-events: none;
-
-
 }
 
 .contact-bar {
   display: flex;
   flex-direction: row;
-  justify-content: space-around;
   align-items: center;
-
   width: 80%;
 }
 
@@ -51,9 +45,7 @@
 }
 
 .home-contact-icon {
-  width: 35%;
-  padding: 10px;
-
+  width: 38%;
   transition: transform 200ms;
 
   &:hover {
@@ -80,21 +72,15 @@
   width: 100%;
 }
 
-.on-hover {
-  display: none;
-
-  &:hover {
-    display: unset;
-  }
+.helloim {
+  text-align: center;
+}
+.student {
+  width: 90%;
+  text-align: center;
+  margin-bottom: 40px;
 }
 
-.no-hover {
-  display: unset;
-
-  &:hover {
-    display: none;
-  }
-}
 
 @keyframes slide-up {
   0% {
