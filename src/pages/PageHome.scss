@@ -13,7 +13,7 @@
 
     padding: 12% 5%;
 
-    animation: 3s ease-out 0s 1 slide-up;
+    animation: 2s ease-out 0s 1 slide-up;
 }
 
 .home-landing-connect {
@@ -84,7 +84,7 @@
 
 @keyframes slide-up {
   0% {
-    transform: translateY(-10%);   
+    transform: translateY(-5%);   
     opacity: 0%;
   }
   100% {
