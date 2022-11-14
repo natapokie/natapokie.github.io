@@ -34,7 +34,7 @@ const HomeLanding = () => {
         <div className="home-landing-connect">
           <h1 className="helloim">{temp1.toUpperCase()}</h1>
           <img className="home-landing-name" src={name} alt="Natalie Chan" />
-          <h3>{temp2.toUpperCase()}</h3>
+          <h3 className="temp2">{temp2.toUpperCase()}</h3>
           <h3 className="student">{temp3.toUpperCase()}</h3>
           <div className="contact-bar">
             {contacts.map((contact) => {
