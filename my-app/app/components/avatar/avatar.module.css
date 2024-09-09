@@ -1,16 +1,21 @@
+.base {
+  left: 13.63px;
+  top: 55.1px;
+}
+
 .shirt {
-  top: 650px;
-  left: 21px;
+  left: 0px;
+  top: 686.08px;
 }
 
 .sides {
-  top: 228px;
-  left: 69px;
+  top: 279.78px;
+  left: 56.63px;
 }
 
 .smile {
-  top: 475px;
-  left: 298px;
+  top: 527.77px;
+  left: 287.74px;
 }
 
 .eyeRight {
@@ -29,8 +34,16 @@
 }
 
 .irisLeft {
-  top: 328px;
-  left: 127px;
+  left: 49.77px;
+  top: 124.07px;
+}
+
+.eyeLeftOpen {
+  top: 0;
+  left: 0;
+}
+
+.eyeRightOpen {
 }
 
 .eyelashRightOpen {
@@ -38,16 +51,16 @@
   left: 369px;
 }
 .eyelashLeftOpen {
-  top: 299px;
-  left: 85px;
+  left: 7.53px;
+  top: 96.52px;
 }
 
 .hair1 {
-  left: 49px;
-  top: -30px;
+  left: 36.67px;
+  top: 23.73px;
 }
 
 .bangs1 {
-  left: 61px;
-  top: -20px;
+  left: 53.64px;
+  top: 33.98px;
 }

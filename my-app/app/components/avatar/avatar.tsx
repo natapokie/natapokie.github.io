@@ -15,38 +15,38 @@ import eyelashLeftOpen from '../../../public/avatar/eyelash-l-open.svg';
 export const Avatar = () => {
   return (
     <>
-      <div className="relative origin-center w-[650px] h-[900px] flex justify-center items-start">
+      <div className="relative origin-center w-[674px] h-[1021.6px]">
         <Image src={hair1} alt="hair" className={`absolute z-[-1] ${styles.hair1}`}></Image>
-        <Image src={base} alt="base" className=""></Image>
+        <Image src={base} alt="base" className={`absolute ${styles.base}`}></Image>
 
         <Image src={shirt} alt="shirt" className={`absolute ${styles.shirt}`}></Image>
         <Image src={sides} alt="sides" className={`absolute ${styles.sides}`}></Image>
         <Image src={bangs1} alt="bangs" className={`absolute ${styles.bangs1}`}></Image>
-        <Image src={eyeRightOpen} alt="eye-right" className={`absolute ${styles.eyeRight}`}></Image>
-        {/* <Image src={eyeLeftOpen} alt="eye-left" className={`absolute ${styles.eyeLeft}`}></Image> */}
         <Image src={smile} alt="smile" className={`absolute ${styles.smile}`}></Image>
-        {/* <Image src={iris} alt="iris-left" className={`absolute ${styles.irisLeft}`}></Image> */}
-        <Image src={iris} alt="iris-right" className={`absolute ${styles.irisRight}`}></Image>
-        <Image
-          src={eyelashRightOpen}
-          alt="eyelash-right"
-          className={`absolute ${styles.eyelashRightOpen}`}
-        ></Image>
-        {/* <Image
-          src={eyelashLeftOpen}
-          alt="eyelash-left"
-          className={`absolute ${styles.eyelashLeftOpen}`}
-        ></Image> */}
 
-        {/* <div className="relative"> */}
-        <Image src={eyeLeftOpen} alt="eye-left" className={`absolute ${styles.eyeLeft}`}></Image>
+        <div className="absolute top-[254.4px] left-[94.18px]">
+          <Eye></Eye>
+        </div>
+      </div>
+    </>
+  );
+};
+
+const Eye = () => {
+  return (
+    <>
+      <div className="relative w-[162.92px] h-[234.58px]">
+        <Image
+          src={eyeLeftOpen}
+          alt="eye-left"
+          className={`absolute ${styles.eyeLeftOpen}`}
+        ></Image>
         <Image src={iris} alt="iris-left" className={`absolute ${styles.irisLeft}`}></Image>
         <Image
           src={eyelashLeftOpen}
           alt="eyelash-left"
           className={`absolute ${styles.eyelashLeftOpen}`}
         ></Image>
-        {/* </div> */}
       </div>
     </>
   );
