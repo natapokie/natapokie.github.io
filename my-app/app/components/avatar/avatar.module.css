@@ -29,8 +29,8 @@
 }
 
 .irisRight {
-  top: 328px;
-  left: 388px;
+  left: 19.69px;
+  top: 124.07px;
 }
 
 .irisLeft {
@@ -44,12 +44,15 @@
 }
 
 .eyeRightOpen {
+  top: 0;
+  left: 0;
 }
 
 .eyelashRightOpen {
-  top: 299px;
-  left: 369px;
+  left: 1.76px;
+  top: 95.8px;
 }
+
 .eyelashLeftOpen {
   left: 7.53px;
   top: 96.52px;

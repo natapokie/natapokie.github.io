@@ -13,7 +13,7 @@ import smile from "../../../public/avatar/smile.svg";
 import iris from "../../../public/avatar/iris.svg";
 import eyelashRightOpen from "../../../public/avatar/eyelash-r-open.svg";
 import eyelashLeftOpen from "../../../public/avatar/eyelash-l-open.svg";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 export const Avatar = () => {
   return (
@@ -52,29 +52,32 @@ export const Avatar = () => {
         ></Image>
 
         <div className="absolute top-[254.4px] left-[94.18px]">
-          <Eye></Eye>
+          <EyeLeft></EyeLeft>
+        </div>
+        <div className="absolute top-[255.05px] left-[377.98px]">
+          <EyeRight></EyeRight>
         </div>
       </div>
     </>
   );
 };
 
-const Eye = () => {
-  const [position, setPosition] = useState({ x: "49.77px", y: "124.07px" });
+const EyeLeft = () => {
+  const divRef = useRef<HTMLDivElement | null>(null);
+  const [position, setPosition] = useState({ x: "0px", y: "0px" });
 
   useEffect(() => {
     const handleMouseMove = (event: MouseEvent) => {
+      if (divRef.current) {
+        const rect = divRef.current.getBoundingClientRect();
 
-      const scaleX = event.pageX / window.outerWidth;
-      const scaleY = event.pageY / window.outerHeight;
+        const x = Math.min((event.pageX - rect.left) / 30, 19.6) + "px";
+        const y = Math.min((event.pageY - rect.top) / 30, 7.6) + "px";
 
-      const newPositionX = Math.max(30, Math.min(scaleX * 162.92, 70));
-      const newPositionY = Math.max(114, Math.min(scaleY * 234.58, 134));
+        console.log("left", x, y);
 
-      setPosition({
-        x: `${newPositionX}px`,
-        y: `${newPositionY}px`,
-      });
+        setPosition({ x, y });
+      }
     };
 
     window.addEventListener("mousemove", handleMouseMove);
@@ -86,7 +89,7 @@ const Eye = () => {
 
   return (
     <>
-      <div className="relative w-[162.92px] h-[234.58px]">
+      <div ref={divRef} className="relative w-[162.92px] h-[234.58px]">
         <Image
           src={eyeLeftOpen}
           alt="eye-left"
@@ -96,7 +99,7 @@ const Eye = () => {
           src={iris}
           alt="iris-left"
           className={`absolute ${styles.irisLeft}`}
-          style={{ top: position.y, left: position.x }}
+          style={{ transform: `translate(${position.x}, ${position.y})` }}
         ></Image>
         <Image
           src={eyelashLeftOpen}
@@ -104,9 +107,55 @@ const Eye = () => {
           className={`absolute ${styles.eyelashLeftOpen}`}
         ></Image>
       </div>
-      {position.x}
-      {"\n"}
-      {position.y}
+    </>
+  );
+};
+
+const EyeRight = () => {
+  const divRef = useRef<HTMLDivElement | null>(null);
+  const [position, setPosition] = useState({ x: "0px", y: "0px" });
+
+  useEffect(() => {
+    const handleMouseMove = (event: MouseEvent) => {
+      if (divRef.current) {
+        const rect = divRef.current.getBoundingClientRect();
+
+        const x = Math.min((event.pageX - rect.left) / 30, -10) + "px";
+        const y = Math.min((event.pageY - rect.top) / 30, 9.03) + "px";
+
+        console.log("right", x, y);
+
+        setPosition({ x, y });
+      }
+    };
+
+    window.addEventListener("mousemove", handleMouseMove);
+
+    return () => {
+      window.removeEventListener("mousemove", handleMouseMove); // Cleanup
+    };
+  }, []);
+
+  return (
+    <>
+      <div ref={divRef} className="relative w-[162.92px] h-[234.58px]">
+        <Image
+          src={eyeRightOpen}
+          alt="eye-right"
+          className={`absolute ${styles.eyeRightOpen}`}
+        ></Image>
+        <Image
+          src={iris}
+          alt="iris-right"
+          className={`absolute ${styles.irisRight}`}
+          style={{ transform: `translate(${position.x}, ${position.y})` }}
+        ></Image>
+        <Image
+          src={eyelashRightOpen}
+          alt="eyelash-right"
+          className={`absolute ${styles.eyelashRightOpen}`}
+        ></Image>
+      </div>
     </>
   );
 };
