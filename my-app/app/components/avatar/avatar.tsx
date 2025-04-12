@@ -158,21 +158,25 @@ const Eye = ({
   const [eyeState, setEyeState] = useState(0); // this is the frame in the array
 
   useEffect(() => {
-    console.log("eyeState", eyeState);
+    let timeoutId: NodeJS.Timeout;
+
     if (eyeState === EYE_STATE.OPEN) {
-      setTimeout(() => {
+      timeoutId = setTimeout(() => {
         setEyeState(eyeState + 1);
       }, 5000);
     } else if (eyeState === EYE_STATE.CLOSED) {
-      setTimeout(() => {
+      timeoutId = setTimeout(() => {
         setEyeState(0);
       }, 300);
-      // 300
     } else {
-      setTimeout(() => {
+      timeoutId = setTimeout(() => {
         setEyeState(eyeState + 1);
       }, 50);
     }
+
+    return () => {
+      clearTimeout(timeoutId);
+    };
   }, [eyeState]);
 
   useEffect(() => {
@@ -190,26 +194,33 @@ const Eye = ({
 
   return (
     <div ref={eyeRef} className="relative w-[162.92px] h-[234.58px]">
+      {eyeImages.map((eye, index) => (
+        <Image
+          key={index}
+          src={eye.img}
+          alt="eye"
+          className={`absolute ${eyeImages[eyeState].style}`}
+          style={{ display: eyeState === index ? "unset" : "none" }}
+        />
+      ))}
       <Image
-        src={eyeImages[eyeState].img}
-        alt="eye"
-        className={`absolute ${eyeImages[eyeState].style}`}
+        src={irisImg}
+        alt="iris"
+        className={`absolute ${irisClass}`}
+        style={{
+          transform: `translate(${position.x}, ${position.y})`,
+          display: eyeState !== EYE_STATE.CLOSED ? "unset" : "none",
+        }}
       />
-      {eyeState !== EYE_STATE.CLOSED && (
-        <>
-          <Image
-            src={irisImg}
-            alt="iris"
-            className={`absolute ${irisClass}`}
-            style={{ transform: `translate(${position.x}, ${position.y})` }}
-          />
-          <Image
-            src={eyeLashImages[eyeState].img}
-            alt="eyelash"
-            className={`absolute ${eyeLashImages[eyeState].style}`}
-          />
-        </>
-      )}
+      {eyeLashImages.map((eyeLash, index) => (
+        <Image
+          key={index}
+          src={eyeLash.img}
+          alt="eyelash"
+          className={`absolute ${eyeLash.style}`}
+          style={{ display: eyeState === index ? "unset" : "none" }}
+        />
+      ))}
     </div>
   );
 };
