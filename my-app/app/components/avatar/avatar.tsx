@@ -1,6 +1,6 @@
 "use client";
 
-import Image from "next/image";
+import Image, { StaticImageData } from "next/image";
 import styles from "./avatar.module.css";
 import base from "../../../public/avatar/base.svg";
 import shirt from "../../../public/avatar/shirt.svg";
@@ -52,110 +52,103 @@ export const Avatar = () => {
         ></Image>
 
         <div className="absolute top-[254.4px] left-[94.18px]">
-          <EyeLeft></EyeLeft>
+          <Eye
+            eyeImg={eyeLeftOpen}
+            eyeClass={styles.eyeLeftOpen}
+            irisImg={iris}
+            irisClass={styles.irisLeft}
+            eyelashImg={eyelashLeftOpen}
+            eyelashClass={styles.eyelashLeftOpen}
+          />
         </div>
         <div className="absolute top-[255.05px] left-[377.98px]">
-          <EyeRight></EyeRight>
+          <Eye
+            eyeImg={eyeRightOpen}
+            eyeClass={styles.eyeRightOpen}
+            irisImg={iris}
+            irisClass={styles.irisRight}
+            eyelashImg={eyelashRightOpen}
+            eyelashClass={styles.eyelashRightOpen}
+          />
         </div>
       </div>
     </>
   );
 };
 
-const EyeLeft = () => {
-  const divRef = useRef<HTMLDivElement | null>(null);
+const Eye = ({
+  eyeImg,
+  eyeClass,
+  irisImg,
+  irisClass,
+  eyelashImg,
+  eyelashClass,
+}: {
+  eyeImg: StaticImageData;
+  eyeClass: string;
+  irisImg: StaticImageData;
+  irisClass: string;
+  eyelashImg: StaticImageData;
+  eyelashClass: string;
+}) => {
+  const eyeRef = useRef<HTMLDivElement | null>(null);
   const [position, setPosition] = useState({ x: "0px", y: "0px" });
 
   useEffect(() => {
-    const handleMouseMove = (event: MouseEvent) => {
-      if (divRef.current) {
-        const rect = divRef.current.getBoundingClientRect();
-
-        const x = Math.min((event.pageX - rect.left) / 30, 19.6) + "px";
-        const y = Math.min((event.pageY - rect.top) / 30, 7.6) + "px";
-
-        console.log("left", x, y);
-
-        setPosition({ x, y });
-      }
+    const handleMouseMove = (e: MouseEvent) => {
+      const offset = calculateIrisOffset(e.pageX, e.pageY, eyeRef, {
+        x: 20,
+        y: 10,
+      });
+      setPosition(offset);
     };
 
     window.addEventListener("mousemove", handleMouseMove);
-
-    return () => {
-      window.removeEventListener("mousemove", handleMouseMove); // Cleanup
-    };
+    return () => window.removeEventListener("mousemove", handleMouseMove);
   }, []);
 
   return (
-    <>
-      <div ref={divRef} className="relative w-[162.92px] h-[234.58px]">
-        <Image
-          src={eyeLeftOpen}
-          alt="eye-left"
-          className={`absolute ${styles.eyeLeftOpen}`}
-        ></Image>
-        <Image
-          src={iris}
-          alt="iris-left"
-          className={`absolute ${styles.irisLeft}`}
-          style={{ transform: `translate(${position.x}, ${position.y})` }}
-        ></Image>
-        <Image
-          src={eyelashLeftOpen}
-          alt="eyelash-left"
-          className={`absolute ${styles.eyelashLeftOpen}`}
-        ></Image>
-      </div>
-    </>
+    <div ref={eyeRef} className="relative w-[162.92px] h-[234.58px]">
+      <Image src={eyeImg} alt="eye" className={`absolute ${eyeClass}`} />
+      <Image
+        src={irisImg}
+        alt="iris"
+        className={`absolute ${irisClass}`}
+        style={{ transform: `translate(${position.x}, ${position.y})` }}
+      />
+      <Image
+        src={eyelashImg}
+        alt="eyelash"
+        className={`absolute ${eyelashClass}`}
+      />
+    </div>
   );
 };
 
-const EyeRight = () => {
-  const divRef = useRef<HTMLDivElement | null>(null);
-  const [position, setPosition] = useState({ x: "0px", y: "0px" });
+// utils.ts
+export const calculateIrisOffset = (
+  mouseX: number,
+  mouseY: number,
+  eyeRef: React.RefObject<HTMLDivElement>,
+  maxOffset: { x: number; y: number }
+) => {
+  if (!eyeRef.current) return { x: "0px", y: "0px" };
 
-  useEffect(() => {
-    const handleMouseMove = (event: MouseEvent) => {
-      if (divRef.current) {
-        const rect = divRef.current.getBoundingClientRect();
+  const rect = eyeRef.current.getBoundingClientRect();
+  const centerX = rect.left + rect.width / 2;
+  const centerY = rect.top + rect.height / 2;
 
-        const x = Math.min((event.pageX - rect.left) / 30, -10) + "px";
-        const y = Math.min((event.pageY - rect.top) / 30, 9.03) + "px";
+  const dx = mouseX - centerX;
+  const dy = mouseY - centerY;
 
-        console.log("right", x, y);
+  console.log(mouseX, mouseY);
 
-        setPosition({ x, y });
-      }
-    };
+  // Normalize and clamp
+  const clamp = (value: number, max: number) =>
+    Math.max(-max, Math.min(value / 20, max));
 
-    window.addEventListener("mousemove", handleMouseMove);
-
-    return () => {
-      window.removeEventListener("mousemove", handleMouseMove); // Cleanup
-    };
-  }, []);
-
-  return (
-    <>
-      <div ref={divRef} className="relative w-[162.92px] h-[234.58px]">
-        <Image
-          src={eyeRightOpen}
-          alt="eye-right"
-          className={`absolute ${styles.eyeRightOpen}`}
-        ></Image>
-        <Image
-          src={iris}
-          alt="iris-right"
-          className={`absolute ${styles.irisRight}`}
-          style={{ transform: `translate(${position.x}, ${position.y})` }}
-        ></Image>
-        <Image
-          src={eyelashRightOpen}
-          alt="eyelash-right"
-          className={`absolute ${styles.eyelashRightOpen}`}
-        ></Image>
-      </div>
-    </>
-  );
+  return {
+    x: `${clamp(dx, maxOffset.x)}px`,
+    y: `${clamp(dy, maxOffset.y)}px`,
+  };
 };
