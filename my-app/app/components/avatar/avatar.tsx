@@ -13,7 +13,77 @@ import smile from "../../../public/avatar/smile.svg";
 import iris from "../../../public/avatar/iris.svg";
 import eyelashRightOpen from "../../../public/avatar/eyelash-r-open.svg";
 import eyelashLeftOpen from "../../../public/avatar/eyelash-l-open.svg";
+import eyeRightClosed from "../../../public/avatar/eye-r-close.svg";
+import eyeLeftClosed from "../../../public/avatar/eye-l-close.svg";
+import eyeRightMidClosed from "../../../public/avatar/eye-r-mid.svg";
+import eyeLeftMidClosed from "../../../public/avatar/eye-l-mid.svg";
+import eyelashRightMidClosed from "../../../public/avatar/eyelash-r-mid.svg";
+import eyelashLeftMidClosed from "../../../public/avatar/eyelash-l-mid.svg";
+
 import { useEffect, useRef, useState } from "react";
+
+interface EyeProps {
+  img: StaticImageData;
+  style: string;
+}
+
+const EYE_STATE = {
+  OPEN: 0,
+  CLOSING: 1,
+  CLOSED: 2,
+};
+
+const EYE_RIGHT: EyeProps[] = [
+  {
+    img: eyeRightOpen,
+    style: styles.eyeRightOpen,
+  },
+  {
+    img: eyeRightMidClosed,
+    style: styles.eyeRightMidClosed,
+  },
+  {
+    img: eyeRightClosed,
+    style: styles.eyeRightClosed,
+  },
+];
+
+const EYE_LEFT: EyeProps[] = [
+  {
+    img: eyeLeftOpen,
+    style: styles.eyeLeftOpen,
+  },
+  {
+    img: eyeLeftMidClosed,
+    style: styles.eyeLeftMidClosed,
+  },
+  {
+    img: eyeLeftClosed,
+    style: styles.eyeLeftClosed,
+  },
+];
+
+const EYELASH_RIGHT: EyeProps[] = [
+  {
+    img: eyelashRightOpen,
+    style: styles.eyelashRightOpen,
+  },
+  {
+    img: eyelashRightMidClosed,
+    style: styles.eyelashRightMidClosed,
+  },
+];
+
+const EYELASH_LEFT: EyeProps[] = [
+  {
+    img: eyelashLeftOpen,
+    style: styles.eyelashLeftOpen,
+  },
+  {
+    img: eyelashLeftMidClosed,
+    style: styles.eyelashLeftMidClosed,
+  },
+];
 
 export const Avatar = () => {
   return (
@@ -53,22 +123,18 @@ export const Avatar = () => {
 
         <div className="absolute top-[254.4px] left-[94.18px]">
           <Eye
-            eyeImg={eyeLeftOpen}
-            eyeClass={styles.eyeLeftOpen}
             irisImg={iris}
             irisClass={styles.irisLeft}
-            eyelashImg={eyelashLeftOpen}
-            eyelashClass={styles.eyelashLeftOpen}
+            eyeImages={EYE_LEFT}
+            eyeLashImages={EYELASH_LEFT}
           />
         </div>
         <div className="absolute top-[255.05px] left-[377.98px]">
           <Eye
-            eyeImg={eyeRightOpen}
-            eyeClass={styles.eyeRightOpen}
             irisImg={iris}
             irisClass={styles.irisRight}
-            eyelashImg={eyelashRightOpen}
-            eyelashClass={styles.eyelashRightOpen}
+            eyeImages={EYE_RIGHT}
+            eyeLashImages={EYELASH_RIGHT}
           />
         </div>
       </div>
@@ -77,22 +143,37 @@ export const Avatar = () => {
 };
 
 const Eye = ({
-  eyeImg,
-  eyeClass,
   irisImg,
   irisClass,
-  eyelashImg,
-  eyelashClass,
+  eyeImages,
+  eyeLashImages,
 }: {
-  eyeImg: StaticImageData;
-  eyeClass: string;
   irisImg: StaticImageData;
   irisClass: string;
-  eyelashImg: StaticImageData;
-  eyelashClass: string;
+  eyeImages: EyeProps[];
+  eyeLashImages: EyeProps[];
 }) => {
   const eyeRef = useRef<HTMLDivElement | null>(null);
   const [position, setPosition] = useState({ x: "0px", y: "0px" });
+  const [eyeState, setEyeState] = useState(0); // this is the frame in the array
+
+  useEffect(() => {
+    console.log("eyeState", eyeState);
+    if (eyeState === EYE_STATE.OPEN) {
+      setTimeout(() => {
+        setEyeState(eyeState + 1);
+      }, 5000);
+    } else if (eyeState === EYE_STATE.CLOSED) {
+      setTimeout(() => {
+        setEyeState(0);
+      }, 300);
+      // 300
+    } else {
+      setTimeout(() => {
+        setEyeState(eyeState + 1);
+      }, 50);
+    }
+  }, [eyeState]);
 
   useEffect(() => {
     const handleMouseMove = (e: MouseEvent) => {
@@ -109,23 +190,30 @@ const Eye = ({
 
   return (
     <div ref={eyeRef} className="relative w-[162.92px] h-[234.58px]">
-      <Image src={eyeImg} alt="eye" className={`absolute ${eyeClass}`} />
       <Image
-        src={irisImg}
-        alt="iris"
-        className={`absolute ${irisClass}`}
-        style={{ transform: `translate(${position.x}, ${position.y})` }}
+        src={eyeImages[eyeState].img}
+        alt="eye"
+        className={`absolute ${eyeImages[eyeState].style}`}
       />
-      <Image
-        src={eyelashImg}
-        alt="eyelash"
-        className={`absolute ${eyelashClass}`}
-      />
+      {eyeState !== EYE_STATE.CLOSED && (
+        <>
+          <Image
+            src={irisImg}
+            alt="iris"
+            className={`absolute ${irisClass}`}
+            style={{ transform: `translate(${position.x}, ${position.y})` }}
+          />
+          <Image
+            src={eyeLashImages[eyeState].img}
+            alt="eyelash"
+            className={`absolute ${eyeLashImages[eyeState].style}`}
+          />
+        </>
+      )}
     </div>
   );
 };
 
-// utils.ts
 export const calculateIrisOffset = (
   mouseX: number,
   mouseY: number,

@@ -67,3 +67,33 @@
   left: 53.64px;
   top: 33.98px;
 }
+
+.eyeLeftMidClosed {
+  top: 0;
+  left: 2.77px;
+}
+
+.eyeRightMidClosed {
+  top: 0;
+  left: 2.77px;
+}
+
+.eyeLeftClosed {
+  top: 22.98px;
+  left: 17.76px;
+}
+
+.eyeRightClosed {
+  top: 22.98px;
+  right: 17.76px;
+}
+
+.eyelashRightMidClosed {
+  top: 113.85px;
+  right: 12.06px;
+}
+
+.eyelashLeftMidClosed {
+  top: 113.85px;
+  left: 12.06px;
+}
