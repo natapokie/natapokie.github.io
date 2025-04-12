@@ -134,16 +134,19 @@ export const calculateIrisOffset = (
 ) => {
   if (!eyeRef.current) return { x: "0px", y: "0px" };
 
+  // relative to center of eye
   const rect = eyeRef.current.getBoundingClientRect();
   const centerX = rect.left + rect.width / 2;
   const centerY = rect.top + rect.height / 2;
 
-  const dx = mouseX - centerX;
-  const dy = mouseY - centerY;
+  // clamp mouse position to prevent iris lagging behind
+  const clampMouseX = Math.min(1000, Math.max(mouseX, 450));
+  const clampMouseY = Math.min(630, Math.max(mouseY, 340));
 
-  console.log(mouseX, mouseY);
+  const dx = clampMouseX - centerX;
+  const dy = clampMouseY - centerY;
 
-  // Normalize and clamp
+  // normalize and more clamp
   const clamp = (value: number, max: number) =>
     Math.max(-max, Math.min(value / 20, max));
 
