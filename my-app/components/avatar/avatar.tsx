@@ -2,23 +2,23 @@
 
 import Image, { StaticImageData } from "next/image";
 import styles from "./avatar.module.css";
-import base from "../../../public/avatar/base.svg";
-import shirt from "../../../public/avatar/shirt.svg";
-import hair1 from "../../../public/avatar/hair-1.svg";
-import bangs1 from "../../../public/avatar/bangs-1.svg";
-import sides from "../../../public/avatar/side.svg";
-import eyeRightOpen from "../../../public/avatar/eye-r-open.svg";
-import eyeLeftOpen from "../../../public/avatar/eye-l-open.svg";
-import smile from "../../../public/avatar/smile.svg";
-import iris from "../../../public/avatar/iris.svg";
-import eyelashRightOpen from "../../../public/avatar/eyelash-r-open.svg";
-import eyelashLeftOpen from "../../../public/avatar/eyelash-l-open.svg";
-import eyeRightClosed from "../../../public/avatar/eye-r-close.svg";
-import eyeLeftClosed from "../../../public/avatar/eye-l-close.svg";
-import eyeRightMidClosed from "../../../public/avatar/eye-r-mid.svg";
-import eyeLeftMidClosed from "../../../public/avatar/eye-l-mid.svg";
-import eyelashRightMidClosed from "../../../public/avatar/eyelash-r-mid.svg";
-import eyelashLeftMidClosed from "../../../public/avatar/eyelash-l-mid.svg";
+import base from "@/public/avatar/base.svg";
+import shirt from "@/public/avatar/shirt.svg";
+import hair1 from "@/public/avatar/hair-1.svg";
+import bangs1 from "@/public/avatar/bangs-1.svg";
+import sides from "@/public/avatar/side.svg";
+import eyeRightOpen from "@/public/avatar/eye-r-open.svg";
+import eyeLeftOpen from "@/public/avatar/eye-l-open.svg";
+import smile from "@/public/avatar/smile.svg";
+import iris from "@/public/avatar/iris.svg";
+import eyelashRightOpen from "@/public/avatar/eyelash-r-open.svg";
+import eyelashLeftOpen from "@/public/avatar/eyelash-l-open.svg";
+import eyeRightClosed from "@/public/avatar/eye-r-close.svg";
+import eyeLeftClosed from "@/public/avatar/eye-l-close.svg";
+import eyeRightMidClosed from "@/public/avatar/eye-r-mid.svg";
+import eyeLeftMidClosed from "@/public/avatar/eye-l-mid.svg";
+import eyelashRightMidClosed from "@/public/avatar/eyelash-r-mid.svg";
+import eyelashLeftMidClosed from "@/public/avatar/eyelash-l-mid.svg";
 
 import { useEffect, useRef, useState } from "react";
 
