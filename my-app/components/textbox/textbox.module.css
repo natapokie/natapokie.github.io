@@ -20,14 +20,6 @@
   transform: rotate(-5deg);
 }
 
-.arrow {
-  position: absolute;
-  right: 50%;
-  top: 94%;
-  /* right: 460px; */
-  /* top: 258px; */
-}
-
 .text {
   position: absolute;
   top: 108px;
@@ -42,4 +34,24 @@
   font-weight: bold;
 
   text-overflow: ellipsis;
+}
+
+.arrow {
+  position: absolute;
+  right: 50%;
+  top: 92%;
+  cursor: pointer;
+  animation: bounce 1.5s ease-in-out infinite;
+  transition: transform 0.2s ease;
+  /* transform: translateY(0) scale(1) scaleY(1); */
+}
+
+@keyframes bounce {
+  0%,
+  100% {
+    transform: translateY(0) scaleY(1);
+  }
+  50% {
+    transform: translateY(10px) scaleY(0.85);
+  }
 }
