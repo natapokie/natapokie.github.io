@@ -1,21 +1,26 @@
 "use client";
 
-import React, { useEffect, useRef, useState } from "react";
+import React, { useCallback, useEffect, useRef, useState } from "react";
 import Image from "next/image";
 import styles from "./textbox.module.css";
 
 import textBox from "@/public/textbox/container.svg";
 import arrow from "@/public/textbox/chat_arrow.svg";
-import { on } from "events";
+import optionArrow from "@/public/textbox/option_arrow.svg";
 
 interface TextBoxProps {
   name?: string;
-  value: string[];
+  value: DialogBox[];
   onChange?: (value: string) => void;
   placeholder?: string;
 }
 
-const TextBox: React.FC<TextBoxProps> = ({
+export interface DialogBox {
+  dialog: string;
+  optionsList?: string[];
+}
+
+const DialogBox: React.FC<TextBoxProps> = ({
   name,
   value = [],
   onChange,
@@ -25,34 +30,92 @@ const TextBox: React.FC<TextBoxProps> = ({
   const [displayArrow, setDisplayArrow] = useState<boolean>(false);
   const [completeTextImmediately, setCompleteTextImmediately] =
     useState<boolean>(false);
+  const [displayedAllText, setDisplayedAllText] = useState<boolean>(false);
+  const [displayOptions, setDisplayOptions] = useState<boolean>(false);
+  const [currentTextDisplayed, setCurrentTextDisplayed] =
+    useState<boolean>(false);
+  const [selectedOptionIndex, setSelectedOptionIndex] = useState<number>(0);
+
+  const navigateDialog = () => {
+    if (!currentTextDisplayed) {
+      console.log("complete text immediately");
+      setCompleteTextImmediately(true);
+    } else {
+      console.log("display the next blurb of text");
+      onArrowClick();
+    }
+  };
+
+  const navigateOptions = (up: boolean) => {
+    const options = value[currentTextIndex]?.optionsList || [];
+    setSelectedOptionIndex((prevIndex) => {
+      if (up) {
+        // select the previous option
+        return prevIndex > 0 ? prevIndex - 1 : options.length - 1;
+      } else {
+        // select the next option
+        return (prevIndex + 1) % options.length;
+      }
+    });
+  };
+
+  const handleOptionClick = (index: number) => {
+    // do stuff with selected option
+    setDisplayOptions(false);
+    setCurrentTextIndex((prevIndex) => prevIndex + 1);
+  };
 
   useEffect(() => {
     const handleKeyDown = (event: KeyboardEvent) => {
-      if (event.key === "ArrowDown" || event.key === "ArrowRight") {
-        console.log("key pressed", displayArrow);
-        // handle down arrow action here
-        if (!displayArrow) {
-          console.log("complete text immediately");
-          setCompleteTextImmediately(true);
+      if (event.key === "ArrowUp") {
+        if (displayOptions) {
+          navigateOptions(true);
+        }
+      } else if (event.key === "ArrowDown") {
+        if (!displayOptions) {
+          navigateDialog();
         } else {
-          console.log("display the next blurb of text");
-          onArrowClick();
+          navigateOptions(false);
+        }
+      } else if (event.key === "ArrowRight") {
+        console.log("right key", displayOptions);
+        if (!displayOptions) {
+          console.log("navigate");
+          navigateDialog();
+        }
+      } else if (event.key === "Enter") {
+        console.log("option selected", selectedOptionIndex);
+        if (displayOptions) {
+          // handle option selection
+          handleOptionClick(selectedOptionIndex);
         }
       }
     };
 
     window.addEventListener("keydown", handleKeyDown);
+    return () => window.removeEventListener("keydown", handleKeyDown);
+  }, [displayOptions, selectedOptionIndex, currentTextDisplayed]);
 
-    return () => {
-      window.removeEventListener("keydown", handleKeyDown);
-    };
-  }, [displayArrow]);
+  useEffect(() => {
+    if (currentTextIndex >= value.length) {
+      console.log("displayed all text");
+      setDisplayedAllText(true);
+    }
+  }, [currentTextIndex, value]);
 
   const handleTextComplete = () => {
     console.log("handleTextComplete");
-    setDisplayArrow(true);
 
-    // reset complete immediately flag
+    if (value[currentTextIndex]?.optionsList) {
+      // don't display arrow if options are available
+      console.log("optionsList", value[currentTextIndex].optionsList);
+      console.log("display the options !!");
+      setDisplayOptions(true);
+    } else {
+      setDisplayArrow(true);
+    }
+
+    setCurrentTextDisplayed(true);
     setCompleteTextImmediately(false);
   };
 
@@ -61,11 +124,18 @@ const TextBox: React.FC<TextBoxProps> = ({
     // switch to next text blurb
     setCurrentTextIndex((prevIndex) => prevIndex + 1);
     setDisplayArrow(false);
+    setCurrentTextDisplayed(false);
   };
 
   return (
     <>
-      <div className="relative w-[869px] h-[246.23px]">
+      <div
+        className={`relative w-[869px] h-[246.23px] ${
+          displayedAllText
+            ? styles.textBoxContainerHidden
+            : styles.textBoxContainer
+        }`}
+      >
         <Image
           src={textBox}
           alt="textbox"
@@ -84,12 +154,43 @@ const TextBox: React.FC<TextBoxProps> = ({
 
         <div className={styles.text}>
           <Typewriter
-            text={value[currentTextIndex]}
+            text={value[currentTextIndex]?.dialog}
             speed={50}
             completeImmediately={completeTextImmediately}
             onComplete={handleTextComplete}
           />
         </div>
+
+        {/* {displayOptions && currentTextDisplayed && ( */}
+        <div
+          className={`${styles.optionsList} ${
+            displayOptions && currentTextDisplayed
+              ? styles.optionsListVisible
+              : styles.optionsListHidden
+          }`}
+        >
+          {value[currentTextIndex]?.optionsList?.map((option, index) => (
+            <div key={index} className={styles.option}>
+              {index === selectedOptionIndex && (
+                <Image
+                  src={optionArrow}
+                  alt="option arrow"
+                  className={styles.optionArrow}
+                ></Image>
+              )}
+
+              <span className="block w-fit">
+                <div
+                  className={`${styles.optionHighlight} ${
+                    selectedOptionIndex === index ? "opacity-100" : "opacity-0"
+                  }`}
+                ></div>
+                <span className="relative z-10">{option}</span>
+              </span>
+            </div>
+          ))}
+        </div>
+        {/* )} */}
       </div>
     </>
   );
@@ -126,7 +227,7 @@ const Typewriter = ({
 
   useEffect(() => {
     if (displayedText.length === text.length) {
-      console.log('"Text complete:", displayedText);')
+      console.log('"Text complete:", displayedText);');
       // check if all text has been displayed
       if (onComplete) onComplete();
     }
@@ -144,4 +245,4 @@ const Typewriter = ({
   return <span>{displayedText}</span>;
 };
 
-export default TextBox;
+export default DialogBox;
