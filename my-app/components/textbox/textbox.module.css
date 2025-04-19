@@ -43,12 +43,12 @@
   right: 50%;
   top: 92%;
   cursor: pointer;
-  animation: bounce 1.5s ease-in-out infinite;
+  animation: bounceY 1.5s ease-in-out infinite;
   transition: transform 0.2s ease;
   /* transform: translateY(0) scale(1) scaleY(1); */
 }
 
-@keyframes bounce {
+@keyframes bounceY {
   0%,
   100% {
     transform: translateY(0) scaleY(1);
@@ -70,14 +70,16 @@
 
 .optionsList {
   /* display: none; */
-  position: absolute;
-  top: -250px;
-  right: -315px;
+  /* position: absolute; */
+  position: relative;
+  top: -275px;
+  right: -700px;
   padding: 30px 50px;
+  width: fit-content;
 
   display: flex;
   flex-direction: column;
-  row-gap: 10px;
+  row-gap: 5px;
 
   border-radius: 100px;
 
@@ -100,15 +102,25 @@
 }
 
 .option {
+  display: block;
+  width: fit-content;
+  height: fit-content;
+
   color: var(--liver);
   font-size: xx-large;
   font-weight: 900;
   letter-spacing: 0.07em;
+
+  cursor: pointer;
 }
 
 .optionArrow {
   position: absolute;
-  transform: translate(-55px, 20px);
+  /* position: relative; */
+  /* top: 53px;
+  left: -4px; */
+
+  animation: bounceX 1.5s ease-in-out infinite;
 }
 
 .optionHighlight {
@@ -122,4 +134,14 @@
   background-color: var(--old-rose);
 
   border-radius: 100px;
+}
+
+@keyframes bounceX {
+  0%,
+  100% {
+    transform: translate(-55px, 20px) scaleX(1);
+  }
+  50% {
+    transform: translate(-45px, 20px) scaleX(0.95);
+  }
 }

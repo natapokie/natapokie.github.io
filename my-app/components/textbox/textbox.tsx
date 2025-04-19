@@ -37,8 +37,11 @@ const DialogBox: React.FC<TextBoxProps> = ({
   const [selectedOptionIndex, setSelectedOptionIndex] = useState<number>(0);
 
   const navigateDialog = () => {
+    console.log("navigateDialog", currentTextDisplayed, currentTextIndex);
     if (!currentTextDisplayed) {
       console.log("complete text immediately");
+      // complete text immediately when you're at the last text blurb
+      // or when the text is not displayed yet
       setCompleteTextImmediately(true);
     } else {
       console.log("display the next blurb of text");
@@ -59,10 +62,19 @@ const DialogBox: React.FC<TextBoxProps> = ({
     });
   };
 
+  const optionClickHelper = (index: number) => {
+    setSelectedOptionIndex(index);
+    setTimeout(() => {
+      // slight delay to render selected option
+      handleOptionClick(index);
+    }, 1000);
+  };
+
   const handleOptionClick = (index: number) => {
     // do stuff with selected option
     setDisplayOptions(false);
     setCurrentTextIndex((prevIndex) => prevIndex + 1);
+    setCurrentTextDisplayed(false);
   };
 
   useEffect(() => {
@@ -97,11 +109,17 @@ const DialogBox: React.FC<TextBoxProps> = ({
   }, [displayOptions, selectedOptionIndex, currentTextDisplayed]);
 
   useEffect(() => {
+    console.log(
+      "end of dialog",
+      currentTextIndex,
+      value.length,
+      currentTextDisplayed
+    );
     if (currentTextIndex >= value.length) {
       console.log("displayed all text");
       setDisplayedAllText(true);
     }
-  }, [currentTextIndex, value]);
+  }, [currentTextIndex, value, currentTextDisplayed]);
 
   const handleTextComplete = () => {
     console.log("handleTextComplete");
@@ -161,7 +179,6 @@ const DialogBox: React.FC<TextBoxProps> = ({
           />
         </div>
 
-        {/* {displayOptions && currentTextDisplayed && ( */}
         <div
           className={`${styles.optionsList} ${
             displayOptions && currentTextDisplayed
@@ -170,7 +187,11 @@ const DialogBox: React.FC<TextBoxProps> = ({
           }`}
         >
           {value[currentTextIndex]?.optionsList?.map((option, index) => (
-            <div key={index} className={styles.option}>
+            <div
+              key={index}
+              className={styles.option}
+              onClick={() => optionClickHelper(index)}
+            >
               {index === selectedOptionIndex && (
                 <Image
                   src={optionArrow}
@@ -178,19 +199,15 @@ const DialogBox: React.FC<TextBoxProps> = ({
                   className={styles.optionArrow}
                 ></Image>
               )}
-
-              <span className="block w-fit">
-                <div
-                  className={`${styles.optionHighlight} ${
-                    selectedOptionIndex === index ? "opacity-100" : "opacity-0"
-                  }`}
-                ></div>
-                <span className="relative z-10">{option}</span>
-              </span>
+              <div
+                className={`${styles.optionHighlight} ${
+                  selectedOptionIndex === index ? "opacity-100" : "opacity-0"
+                }`}
+              ></div>
+              <span className="relative z-10">{option}</span>
             </div>
           ))}
         </div>
-        {/* )} */}
       </div>
     </>
   );
