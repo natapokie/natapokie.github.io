@@ -6,7 +6,7 @@
 
 .nameBox {
   position: absolute;
-  top: 19px;
+  top: 5px;
   left: 58px;
 
   background-color: var(--rosy-brown);
@@ -23,19 +23,16 @@
 
 .text {
   position: absolute;
-  top: 108px;
+  top: 85px;
   left: 50%;
   transform: translateX(-50%);
 
   width: 80%;
-  height: 80px;
 
   color: var(--liver);
   font-size: 30px;
   font-weight: bold;
   letter-spacing: 0.07em;
-
-  text-overflow: ellipsis;
 }
 
 .arrow {

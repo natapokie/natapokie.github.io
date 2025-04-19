@@ -2,7 +2,7 @@ import { DialogBox } from "@/components/textbox/textbox";
 
 export const IntroText: DialogBox[] = [
     {
-        dialog: "Hi there! I’m Natalie — a Computer Engineering graduate from the University of Toronto.",
+        dialog: "Hi there! I’m Natalie — a recent graduate from the University of Toronto.",
     },
     {
         dialog: "What are you interested in seeing?",
