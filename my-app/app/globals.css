@@ -35,6 +35,10 @@ body {
   /* font-family: Arial, Helvetica, sans-serif; */
 }
 
+.page {
+  background: var(--background);
+}
+
 @layer utilities {
   .text-balance {
     text-wrap: balance;

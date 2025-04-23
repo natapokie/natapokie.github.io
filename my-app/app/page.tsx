@@ -6,7 +6,7 @@ import { IntroText } from "@/lib/static/intro";
 export default function Home() {
   return (
     <>
-      <div className="w-full h-full flex justify-center items-center">
+      <div className="w-full h-full flex justify-center items-center p-5 page">
         {/* <div className="relative w-full h-full"> */}
         <Avatar></Avatar>
         <div className="absolute left-1/2 bottom-[230px] transform -translate-x-1/2">

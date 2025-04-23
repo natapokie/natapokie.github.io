@@ -92,7 +92,7 @@ export const Avatar = () => {
         <Image
           src={hair1}
           alt="hair"
-          className={`absolute z-[-1] ${styles.hair1}`}
+          className={`absolute ${styles.hair1}`}
         ></Image>
         <Image
           src={base}
