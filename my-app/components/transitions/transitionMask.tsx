@@ -17,7 +17,12 @@ export default function TransitionMask({
   const [viewport, setViewport] = useState({ width: 0, height: 0 });
   const [readyToRender, setReadyToRender] = useState(false);
   const motionRef = useRef<SVGAnimateMotionElement | null>(null);
-  
+  const pathname = usePathname();
+
+  useEffect(() => {
+    console.log("pathname", pathname);
+  }, [pathname]);
+
   useEffect(() => {
     const updateSize = () =>
       setViewport({ width: window.innerWidth, height: window.innerHeight });
@@ -50,7 +55,7 @@ export default function TransitionMask({
         if (progress < 1) {
           requestAnimationFrame(animate);
         } else {
-          console.log('animation complete')
+          console.log("animation complete");
           setRadius(maxRadius);
           onEnd?.();
         }
@@ -65,7 +70,7 @@ export default function TransitionMask({
     return () => {
       el.removeEventListener("beginEvent", handleBegin);
     };
-  }, [viewport, duration, maxRadius, onBegin, onEnd]);
+  }, [viewport, duration, maxRadius, onBegin, onEnd, pathname]);
 
   if (viewport.width === 0 || viewport.height === 0) return null;
 

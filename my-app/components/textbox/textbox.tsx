@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useCallback, useEffect, useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import Image from "next/image";
 import styles from "./textbox.module.css";
 
@@ -11,8 +11,7 @@ import optionArrow from "@/public/textbox/option_arrow.svg";
 interface TextBoxProps {
   name?: string;
   value: DialogBox[];
-  onChange?: (value: string) => void;
-  placeholder?: string;
+  onComplete?: (index: number) => void;
 }
 
 export interface DialogBox {
@@ -23,8 +22,7 @@ export interface DialogBox {
 const DialogBox: React.FC<TextBoxProps> = ({
   name,
   value = [],
-  onChange,
-  placeholder,
+  onComplete,
 }) => {
   const [currentTextIndex, setCurrentTextIndex] = useState<number>(0);
   const [displayArrow, setDisplayArrow] = useState<boolean>(false);
@@ -37,14 +35,11 @@ const DialogBox: React.FC<TextBoxProps> = ({
   const [selectedOptionIndex, setSelectedOptionIndex] = useState<number>(0);
 
   const navigateDialog = () => {
-    console.log("navigateDialog", currentTextDisplayed, currentTextIndex);
     if (!currentTextDisplayed) {
-      console.log("complete text immediately");
       // complete text immediately when you're at the last text blurb
       // or when the text is not displayed yet
       setCompleteTextImmediately(true);
     } else {
-      console.log("display the next blurb of text");
       onArrowClick();
     }
   };
@@ -90,44 +85,42 @@ const DialogBox: React.FC<TextBoxProps> = ({
           navigateOptions(false);
         }
       } else if (event.key === "ArrowRight") {
-        console.log("right key", displayOptions);
         if (!displayOptions) {
-          console.log("navigate");
           navigateDialog();
         }
       } else if (event.key === "Enter") {
-        console.log("option selected", selectedOptionIndex);
         if (displayOptions) {
           // handle option selection
           handleOptionClick(selectedOptionIndex);
+        } else {
+          navigateDialog();
         }
       }
     };
 
-    window.addEventListener("keydown", handleKeyDown);
+    if (!displayedAllText) {
+      window.addEventListener("keydown", handleKeyDown);
+    } else {
+      window.removeEventListener("keydown", handleKeyDown);
+    }
     return () => window.removeEventListener("keydown", handleKeyDown);
-  }, [displayOptions, selectedOptionIndex, currentTextDisplayed]);
+  }, [
+    displayOptions,
+    selectedOptionIndex,
+    currentTextDisplayed,
+    displayedAllText,
+  ]);
 
   useEffect(() => {
-    console.log(
-      "end of dialog",
-      currentTextIndex,
-      value.length,
-      currentTextDisplayed
-    );
     if (currentTextIndex >= value.length) {
-      console.log("displayed all text");
       setDisplayedAllText(true);
+      onComplete?.(selectedOptionIndex);
     }
   }, [currentTextIndex, value, currentTextDisplayed]);
 
   const handleTextComplete = () => {
-    console.log("handleTextComplete");
-
     if (value[currentTextIndex]?.optionsList) {
       // don't display arrow if options are available
-      console.log("optionsList", value[currentTextIndex].optionsList);
-      console.log("display the options !!");
       setDisplayOptions(true);
     } else {
       setDisplayArrow(true);
@@ -138,7 +131,6 @@ const DialogBox: React.FC<TextBoxProps> = ({
   };
 
   const onArrowClick = () => {
-    console.log("Arrow clicked");
     // switch to next text blurb
     setCurrentTextIndex((prevIndex) => prevIndex + 1);
     setDisplayArrow(false);
