@@ -1,0 +1,58 @@
+.navbarItem {
+  position: relative;
+  width: 100px;
+  height: 100px;
+
+  background-color: var(--champagne-pink);
+  padding: 10px;
+  border-radius: 100px;
+
+  cursor: pointer;
+}
+
+.navbarItem:not(:first-child) {
+  margin-left: -10px;
+}
+
+.navbarItemSelected {
+  .navbarIcon {
+    transform: translate(-50%, -50%);
+    height: 44px !important;
+    opacity: 1;
+
+    transition: opacity 0.2s ease, height 0.2s ease;
+  }
+}
+
+.navbarIcon {
+  position: relative;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+
+  height: 35px;
+  width: auto;
+  opacity: 0.5;
+
+  transition: opacity 0.2s ease, height 0.2s ease;
+}
+
+.navbarHeader {
+  position: absolute;
+  top: -15px;
+  left: 50%;
+  transform: translate(-50%, 0);
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  background-color: var(--redwood);
+  padding: 3px 12px;
+  border-radius: 100px;
+
+  color: white;
+  white-space: nowrap;
+  font-size: large;
+  letter-spacing: 0.01em;
+}

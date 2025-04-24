@@ -1,4 +1,37 @@
 import { DialogBox } from "@/components/textbox/textbox";
+import HomeIcon from "@/public/navbar/home.svg";
+import AboutIcon from "@/public/navbar/about.svg";
+import ProjectsIcon from "@/public/navbar/idea.svg";
+import ResumeIcon from "@/public/navbar/file.svg";
+import CustomizeIcon from "@/public/navbar/paint.svg";
+
+export const NavbarItems = [
+  {
+    name: "Home",
+    icon: HomeIcon,
+    route: "/",
+  },
+  {
+    name: "About Me",
+    icon: AboutIcon,
+    route: "/about",
+  },
+  {
+    name: "Projects",
+    icon: ProjectsIcon,
+    route: "/projects",
+  },
+  {
+    name: "Resume",
+    icon: ResumeIcon,
+    route: "/resume",
+  },
+  {
+    name: "Customize",
+    icon: CustomizeIcon,
+    route: "",
+  },
+]
 
 export const IntroOptionsMap: Record<string, string> = {
   "About Me": "/about",

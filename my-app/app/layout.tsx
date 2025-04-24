@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Nunito } from "next/font/google";
 import "./globals.css";
 import TransitionMask from "@/components/transitions/transitionMask";
+import Navbar from "@/components/navbar/navbar";
 
 const nunito = Nunito({ subsets: ["latin"] });
 
@@ -20,6 +21,7 @@ export default function RootLayout({
       <body className={`${nunito.className} h-screen w-screen`}>
         {children}
         <TransitionMask />
+        <Navbar />
       </body>
     </html>
   );
