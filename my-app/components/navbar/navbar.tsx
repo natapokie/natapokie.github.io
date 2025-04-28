@@ -14,27 +14,25 @@ export default function Navbar() {
   };
 
   return (
-    <div className="absolute top-[40px] right-[30px]">
-      <div className="flex flex-row justify-start items-center">
-        {NavbarItems.map((item, index) => (
-          <div
-            key={index}
-            onClick={() => handleNavItemClick(index)}
-            className={`${styles.navbarItem} ${
-              selectedIndex === index ? styles.navbarItemSelected : ""
-            }`}
-          >
-            <Image
-              src={item.icon}
-              alt={item.name}
-              className={`${styles.navbarIcon} `}
-            ></Image>
-            {selectedIndex === index && (
-              <div className={styles.navbarHeader}>{item.name}</div>
-            )}
-          </div>
-        ))}
-      </div>
+    <div className="flex flex-row justify-start items-center">
+      {NavbarItems.map((item, index) => (
+        <div
+          key={index}
+          onClick={() => handleNavItemClick(index)}
+          className={`${styles.navbarItem} ${
+            selectedIndex === index ? styles.navbarItemSelected : ""
+          }`}
+        >
+          <Image
+            src={item.icon}
+            alt={item.name}
+            className={`${styles.navbarIcon} `}
+          ></Image>
+          {selectedIndex === index && (
+            <div className={styles.navbarHeader}>{item.name}</div>
+          )}
+        </div>
+      ))}
     </div>
   );
 }
