@@ -6,6 +6,7 @@ import "./globals.css";
 import TransitionMask from "@/components/transitions/transitionMask";
 import Navbar from "@/components/navbar/navbar";
 import { useEffect, useState } from "react";
+import { NavbarProvider } from "@/context/NavbarContext";
 
 const nunito = Nunito({ subsets: ["latin"] });
 
@@ -63,16 +64,18 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={`${nunito.className} h-screen w-screen overflow-hidden`}>
-        {children}
-        <TransitionMask />
+        <NavbarProvider>
+          {children}
+          <TransitionMask />
 
-        <div
-          className={`absolute top-[40px] right-[30px] transition-transform duration-600 ease-in-out ${
-            showNavbar ? "translate-y-0" : "translate-y-[-150px]"
-          }`}
-        >
-          <Navbar />
-        </div>
+          <div
+            className={`absolute top-[40px] right-[30px] transition-transform duration-600 ease-in-out ${
+              showNavbar ? "translate-y-0" : "translate-y-[-150px]"
+            }`}
+          >
+            <Navbar />
+          </div>
+        </NavbarProvider>
       </body>
     </html>
   );

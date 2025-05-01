@@ -5,23 +5,24 @@ import styles from "./navbar.module.css";
 import Image from "next/image";
 import { useEffect, useState } from "react";
 import { usePathname, useRouter } from "next/navigation";
+import { useNavbarContext } from "@/context/NavbarContext";
 
 export default function Navbar() {
-  const [selectedIndex, setSelectedIndex] = useState<number>(0);
+  const { navbarState, setNavbarState } = useNavbarContext();
   const pathname = usePathname();
   const router = useRouter();
 
   const handleNavItemClick = (index: number) => {
-    setSelectedIndex(index);
+    setNavbarState(NavbarItems[index]);
     router.push(NavbarItems[index].route);
   };
 
   useEffect(() => {
     const index = NavbarItems.findIndex((item) => item.route === pathname);
     if (index !== -1) {
-      setSelectedIndex(index);
+      setNavbarState(NavbarItems[index]);
     } else {
-      setSelectedIndex(0); // Default to the first item if not found
+      setNavbarState(NavbarItems[0]);
     }
   }, [pathname]);
 
@@ -32,7 +33,7 @@ export default function Navbar() {
           key={index}
           onClick={() => handleNavItemClick(index)}
           className={`${styles.navbarItem} ${
-            selectedIndex === index ? styles.navbarItemSelected : ""
+            navbarState.name === item.name ? styles.navbarItemSelected : ""
           }`}
         >
           <Image
@@ -40,7 +41,7 @@ export default function Navbar() {
             alt={item.name}
             className={`${styles.navbarIcon} `}
           ></Image>
-          {selectedIndex === index && (
+          {navbarState.name === item.name && (
             <div className={styles.navbarHeader}>{item.name}</div>
           )}
         </div>
