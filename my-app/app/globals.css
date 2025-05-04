@@ -1,3 +1,5 @@
+@import url("https://fonts.googleapis.com/css2?family=Nunito:ital,wght@0,200..1000;1,200..1000&display=swap");
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -12,7 +14,7 @@
   --rosy-brown: #bc877b;
   --liver: #68493e;
   --bittersweet-shimmer: #b65854;
-  --cavern-pink: #e0c0B4;
+  --cavern-pink: #e0c0b4;
   --old-rose: #cc8a7b;
   --redwood: #a35847;
 
@@ -28,16 +30,32 @@
 
 * {
   box-sizing: border-box;
+  font-family: "Nunito", sans-serif;
+}
+
+h1 {
+  font-size: 45px;
+  font-weight: 900;
+  letter-spacing: 0.07em;
+}
+
+h2 {
+  font-size: 30px;
+  font-weight: bold;
+}
+
+p {
+  font-size: 25px;
 }
 
 body {
   color: var(--liver);
   background: var(--background);
-  /* font-family: Arial, Helvetica, sans-serif; */
 }
 
 .page {
   background: var(--background);
+  overflow: hidden;
 }
 
 @layer utilities {
