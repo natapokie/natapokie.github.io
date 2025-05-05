@@ -27,7 +27,7 @@ export default function Navbar() {
   }, [pathname]);
 
   return (
-    <div className="flex flex-row justify-start items-center">
+    <div className="flex flex-row justify-start items-center z-10">
       {NavbarItems.map((item, index) => (
         <div
           key={index}

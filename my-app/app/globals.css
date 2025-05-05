@@ -13,6 +13,7 @@
   --champagne-pink: #f1dad1;
   --rosy-brown: #bc877b;
   --liver: #68493e;
+  --rose-taupe: #805f54;
   --bittersweet-shimmer: #b65854;
   --cavern-pink: #e0c0b4;
   --old-rose: #cc8a7b;
@@ -37,11 +38,19 @@ h1 {
   font-size: 45px;
   font-weight: 900;
   letter-spacing: 0.07em;
+  color: var(--liver);
 }
 
 h2 {
   font-size: 30px;
   font-weight: bold;
+  color: var(--liver);
+}
+
+h3 {
+  font-size: 25px;
+  font-weight: bold;
+  color: var(--rose-taupe);
 }
 
 p {
