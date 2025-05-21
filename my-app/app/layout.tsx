@@ -59,7 +59,7 @@ export default function RootLayout({
           {children}
           <TransitionMask />
           <div
-            className={`absolute top-[40px] right-[30px] transition-transform duration-600 ease-in-out ${
+            className={`absolute top-[40px] right-[30px] transition-transform duration-600 ease-in-out z-10 ${
               showNavbar ? "translate-y-0" : "translate-y-[-150px]"
             }`}
           >

@@ -35,7 +35,7 @@
 }
 
 h1 {
-  font-size: 45px;
+  font-size: 35px;
   font-weight: 900;
   letter-spacing: 0.07em;
   color: var(--liver);
@@ -48,13 +48,14 @@ h2 {
 }
 
 h3 {
-  font-size: 25px;
+  font-size: 20px;
   font-weight: bold;
   color: var(--rose-taupe);
 }
 
 p {
-  font-size: 25px;
+  font-size: 13px;
+  line-height: normal;
 }
 
 body {
