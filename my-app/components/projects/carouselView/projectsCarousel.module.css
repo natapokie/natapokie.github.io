@@ -1,0 +1,158 @@
+.active {
+  opacity: 1 !important;
+  z-index: 1 !important;
+
+  transition: opacity 0.5s ease-in-out;
+}
+
+.hidden {
+  opacity: 0;
+  z-index: 0;
+  display: none;
+}
+
+.currentCard {
+  top: 0;
+  left: 0%;
+  /* left: 40%; */
+}
+
+.nextCard {
+  top: 0;
+  left: 100%;
+  /* left:60%; */
+}
+
+.prevCard {
+  top: 0;
+  left: -100%;
+  /* left: 20%; */
+}
+
+@keyframes slideInFromLeft {
+  from {
+    transform: translateX(0%);
+  }
+  to {
+    transform: translateX(100%);
+  }
+}
+
+@keyframes slideOutToRight {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(100%);
+  }
+}
+
+@keyframes leftSlide {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-100%);
+  }
+}
+
+@keyframes rightSlide {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(100%);
+  }
+}
+
+.rightClick {
+  /* background-color: rebeccapurple; */
+  animation: leftSlide 500ms ease-out forwards;
+}
+
+.leftClick {
+  /* background-color: royalblue; */
+  animation: rightSlide 500ms ease-out forwards;
+}
+
+.rightSlideIn {
+  /* background-color: rebeccapurple; */
+  animation: slideInFromLeft 2s ease-out forwards;
+}
+
+.rightSlideOut {
+  /* background-color: royalblue; */
+  animation: slideOutToRight 500ms ease-out forwards;
+}
+
+@keyframes scaleIn {
+  from {
+    transform: scale(0);
+    opacity: 0;
+  }
+  to {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+@keyframes scaleOut {
+  from {
+    transform: scale(1);
+    opacity: 1;
+  }
+  to {
+    transform: scale(0);
+    opacity: 0;
+  }
+}
+
+.scaleIn {
+  animation: scaleIn 0.5s ease forwards;
+}
+
+.scaleOut {
+  animation: scaleOut 0.5s ease forwards;
+}
+
+@keyframes slideLeftRight {
+  0% {
+    transform: translateX(0);
+  }
+  50% {
+    transform: translateX(8px); /* or any distance */
+  }
+  100% {
+    transform: translateX(0);
+  }
+}
+
+@keyframes slideRightLeft {
+  0% {
+    transform: translateX(0);
+  }
+  50% {
+    transform: translateX(-8px); /* or any distance */
+  }
+  100% {
+    transform: translateX(0);
+  }
+}
+
+.bounceRightX {
+  animation: slideLeftRight 3s ease-in-out infinite;
+}
+
+.bounceLeftX {
+  animation: slideRightLeft 3s ease-in-out infinite;
+}
+
+/* .bounceRightX,
+.bounceLeftX {
+  animation-duration: 3s;
+  animation-timing-function: ease-in-out;
+  animation-iteration-count: infinite;
+  animation-fill-mode: none;
+  animation-delay: 0s;
+  animation-play-state: running;
+} */

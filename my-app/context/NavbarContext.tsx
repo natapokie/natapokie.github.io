@@ -1,6 +1,6 @@
 'use client'
 import { NavbarItems } from '@/lib/static/intro';
-import { INavbarContext, INavbarItem } from '@/lib/types/types';
+import { INavbarContext, INavbarItem } from '@/lib/types/navbarTypes';
 import { createContext, useContext, useState } from 'react';
 
 const NavbarContext = createContext<INavbarContext | undefined>(undefined);
