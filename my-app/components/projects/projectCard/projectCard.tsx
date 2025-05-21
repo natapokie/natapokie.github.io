@@ -1,18 +1,20 @@
+import { useMemo } from "react";
+
+import Image from "next/image";
+import Link from "next/link";
+
 import { IProject } from "@/lib/types/projectTypes";
 import GithubIcon from "@/public/about/github.svg";
 import OpenIcon from "@/public/icons/arrow-up-right-from-square-solid.svg";
-import styles from "./projectCard.module.css";
-import Image from "next/image";
 import TextBlob from "@/public/blob/text-blob.svg";
-import Link from "next/link";
 
 type ProjectCardProps = {
   details: IProject;
 };
 
 export default function ProjectCard({ details }: ProjectCardProps) {
-  // const rotation = `${Math.floor(Math.random() * 4) - 1}deg`;
-  const rotation = "-1deg";
+  // useMemo to calculate rotation one on mount
+  const rotation = useMemo(() => `${Math.random() * 2 - 1}deg`, []);
 
   return (
     <div

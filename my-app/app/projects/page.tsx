@@ -10,6 +10,10 @@ import ProjectCarousel from "@/components/projects/carouselView/projectsCarousel
 
 export default function Projects() {
   const [selectedProject, setSelectedProject] = useState(-1);
+  
+  const onShowAllProjects = () => {
+    setSelectedProject(-1);
+  };
 
   return (
     <div className="w-full h-full flex justify-center items-center page">
@@ -33,7 +37,10 @@ export default function Projects() {
         //     </div>
         //   ))}
         // </div>
-        <ProjectCarousel selectedIndex={selectedProject} />
+        <ProjectCarousel
+          selectedIndex={selectedProject}
+          onShowAllProjects={onShowAllProjects}
+        />
       )}
 
       {/* <ProjectGallery /> */}

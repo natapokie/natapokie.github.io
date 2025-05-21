@@ -147,12 +147,15 @@
   animation: slideRightLeft 3s ease-in-out infinite;
 }
 
-/* .bounceRightX,
-.bounceLeftX {
-  animation-duration: 3s;
-  animation-timing-function: ease-in-out;
-  animation-iteration-count: infinite;
-  animation-fill-mode: none;
-  animation-delay: 0s;
-  animation-play-state: running;
-} */
+@keyframes fadeOut {
+  0% {
+    opacity: 1;
+  } 
+  100% {
+    opacity: 0;
+  }
+}
+
+.fadeOut {
+  animation: fadeOut 0.5s ease forwards;
+}
