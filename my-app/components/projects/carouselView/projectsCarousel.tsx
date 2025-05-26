@@ -33,8 +33,7 @@ export default function ProjectCarousel({
     setTimeout(() => {
       // only show arrows after the first animation
       setAnimationState(null);
-      setHideLeftArrow(false);
-      setHideRightArrow(false);
+      hideShowArrows(selectedIndex);
     }, 500);
   }, []);
 
@@ -58,16 +57,22 @@ export default function ProjectCarousel({
     }, 500); // wait until animation is complete
   };
 
-  useEffect(() => {
-    // hide the arrows if at the end/beginning of the list
-    if (currentIndex === 0) {
+  const hideShowArrows = (index: number) => {
+    if (index === 0) {
       setHideLeftArrow(true);
-    } else if (currentIndex === ProjectsList.length - 1) {
+      setHideRightArrow(false);
+    } else if (index === ProjectsList.length - 1) {
       setHideRightArrow(true);
+      setHideLeftArrow(false);
     } else {
       setHideLeftArrow(false);
       setHideRightArrow(false);
     }
+  };
+
+  useEffect(() => {
+    // hide the arrows if at the end/beginning of the list
+    hideShowArrows(currentIndex);
   }, [currentIndex]);
 
   const showAllProjects = () => {

@@ -13,23 +13,26 @@ export default function AllProjects({ setSelectedIndex }: AllProjectsProps) {
   };
 
   return (
-    <div className="relative top-[250px] grid grid-cols-2 gap-10">
-      {ProjectsList.map((items, index) => (
-        <div
-          key={index}
-          className={`flex flex-col justify-center items-center gap-8 w-[600px] h-[400px] rounded-[10px] border-[10px] border-white bg-[var(--champagne-pink)] ${styles.cardContainer}`}
-          onClick={() => onProjectClick(index)}
-        >
-          <h2 className="text-[var(--liver)]">{items.name}</h2>
-          <div className="flex flex-row justify-center items-center bg-white rounded-[100px] w-[150px] h-[150px]">
-            {items?.icon ? (
-              <Image src={items.icon} alt={items.name}></Image>
-            ) : (
-              <div>TODO ICON</div>
-            )}
+    <div className="h-full w-full flex justify-center items-start">
+      <div className="relative top-[150px] grid grid-cols-2 gap-4">
+        {ProjectsList.map((item, index) => (
+          <div
+            key={index}
+            className={`flex flex-col justify-center items-center w-[400px] h-[260px] rounded-[4px] border-[7px] border-white bg-[var(--champagne-pink)] p-4 shadow-sm 
+              ${styles.cardContainer} 
+              ${styles.pattern} 
+              ${item.class ? styles[item.class] : ""}
+              `}
+            onClick={() => onProjectClick(index)}
+          >
+            <h2 className="text-[var(--liver)] text-center">{item.name}</h2>
+            <div className="absolute bottom-0 left-0 p-3 w-[80%] font-bold">
+              <p>{item.date}</p>
+              <p>{item.shortDescription}</p>
+            </div>
           </div>
-        </div>
-      ))}
+        ))}
+      </div>
     </div>
   );
 }

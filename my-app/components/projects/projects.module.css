@@ -1,8 +1,35 @@
 .cardContainer {
-    transition: transform 0.3s ease;
-  }
-  
-  .cardContainer:hover {
-    transform: scale(1.02) rotate(-4deg);
-  }
-  
+  transition: transform 0.3s ease;
+}
+
+.cardContainer:hover {
+  transform: scale(1.04) rotate(-1deg);
+}
+
+.pattern {
+  position: relative;
+}
+
+.pattern::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center;
+  pointer-events: none;
+}
+
+.pattern.pattern-geometric::before {
+  background-image: url("/pattern/geometric.svg");
+}
+
+.pattern.pattern-grid::before {
+  background-image: url("/pattern/grid.svg");
+}
+
+.pattern.pattern-stars::before {
+  background-image: url("/pattern/stars.svg");
+}
