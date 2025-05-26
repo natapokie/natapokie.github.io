@@ -6,17 +6,12 @@ import React, { useEffect, useState } from "react";
 import styles from "./projectsCarousel.module.css";
 import Arrow from "@/public/misc/arrow.svg";
 import Image from "next/image";
+import { useProjectContext } from "@/context/ProjectContext";
 
-type ProjectCarouselProps = {
-  selectedIndex: number;
-  onShowAllProjects: () => void;
-};
+export default function ProjectCarousel() {
+  const { selectedProject, showAllProjects } = useProjectContext();
 
-export default function ProjectCarousel({
-  selectedIndex,
-  onShowAllProjects,
-}: ProjectCarouselProps) {
-  const [currentIndex, setCurrentIndex] = useState(selectedIndex);
+  const [currentIndex, setCurrentIndex] = useState(selectedProject);
   const [hideLeftArrow, setHideLeftArrow] = useState(true);
   const [hideRightArrow, setHideRightArrow] = useState(true);
 
@@ -33,7 +28,7 @@ export default function ProjectCarousel({
     setTimeout(() => {
       // only show arrows after the first animation
       setAnimationState(null);
-      hideShowArrows(selectedIndex);
+      hideShowArrows(selectedProject);
     }, 500);
   }, []);
 
@@ -75,10 +70,10 @@ export default function ProjectCarousel({
     hideShowArrows(currentIndex);
   }, [currentIndex]);
 
-  const showAllProjects = () => {
+  const onShowAllProjects = () => {
     setAnimationState("scaleOut");
     setTimeout(() => {
-      onShowAllProjects();
+      showAllProjects();
       setAnimationState(null);
     }, 500);
   };
@@ -102,7 +97,7 @@ export default function ProjectCarousel({
             
               ${animationState ? styles[animationState] : ""}
             `}
-            onClick={() => showAllProjects()}
+            onClick={() => onShowAllProjects()}
           >
             <ProjectCard details={item} />
           </div>

@@ -1,15 +1,13 @@
 import { ProjectsList } from "@/lib/static/projects";
-import Image from "next/image";
 import styles from "../projects.module.css";
+import { useProjectContext } from "@/context/ProjectContext";
 
-type AllProjectsProps = {
-  setSelectedIndex: (index: number) => void;
-};
+export default function AllProjects() {
+  const { setSelectedProject } = useProjectContext();
 
-export default function AllProjects({ setSelectedIndex }: AllProjectsProps) {
   const onProjectClick = (index: number) => {
     console.log("project clicked");
-    setSelectedIndex(index);
+    setSelectedProject(index);
   };
 
   return (
