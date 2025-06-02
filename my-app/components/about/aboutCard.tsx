@@ -4,7 +4,7 @@ import React, { useEffect, useRef, useState } from "react";
 import styles from "./aboutCard.module.css";
 import AboutContents from "./aboutContents";
 
-const MAX_OFFSET = 250;
+const MAX_OFFSET = 150;
 const SIZE_THRESHOLD = 0.8; // 80% of the screen height
 
 export default function AboutCard() {
@@ -20,9 +20,15 @@ export default function AboutCard() {
 
       const containerHeight = container.offsetHeight;
       const windowHeight = window.innerHeight;
+      console.log(
+        "containerHeight",
+        containerHeight,
+        "windowHeight",
+        windowHeight
+      );
 
       setDisableScroll(containerHeight < windowHeight * SIZE_THRESHOLD);
-      setMinOffset(-containerHeight / 3);
+      setMinOffset(-containerHeight / 4);
     };
 
     checkSize();
@@ -34,6 +40,7 @@ export default function AboutCard() {
       const delta = event.deltaY;
 
       setOffsetY((prev) => {
+        console.log("prev", prev, "delta", delta);
         let next = prev + delta; // subtract to scroll downward
         next = Math.max(minOffset, Math.min(MAX_OFFSET, next));
         return next;

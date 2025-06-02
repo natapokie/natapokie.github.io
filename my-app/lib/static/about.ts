@@ -20,11 +20,11 @@ export const AboutDetails = [
     icon: LocationIcon,
     text: "Toronto, Canada",
   },
-  {
-    name: "education",
-    icon: EducationIcon,
-    text: "UofT Bachelor's of Applied Science",
-  },
+  // {
+  //   name: "education",
+  //   icon: EducationIcon,
+  //   text: "UofT Bachelor's of Applied Science",
+  // },
 ];
 
 export const AboutLinks = [

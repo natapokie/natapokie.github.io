@@ -1,7 +1,7 @@
 .navbarItem {
   position: relative;
-  width: 100px;
-  height: 100px;
+  width: 80px;
+  height: 80px;
 
   background-color: var(--champagne-pink);
   padding: 10px;
@@ -11,13 +11,19 @@
 }
 
 .navbarItem:not(:first-child) {
-  margin-left: -10px;
+  margin-left: -8px;
+}
+
+.navbarItem:hover {
+  .navbarIcon {
+    opacity: 1;
+  }
 }
 
 .navbarItemSelected {
   .navbarIcon {
     transform: translate(-50%, -50%);
-    height: 44px !important;
+    height: 35px !important;
     opacity: 1;
 
     transition: opacity 0.2s ease, height 0.2s ease;
@@ -30,7 +36,7 @@
   left: 50%;
   transform: translate(-50%, -50%);
 
-  height: 35px;
+  height: 28px;
   width: auto;
   opacity: 0.5;
 
@@ -38,6 +44,7 @@
 }
 
 .navbarHeader {
+  z-index: 1;
   position: absolute;
   top: -15px;
   left: 50%;
@@ -53,6 +60,6 @@
 
   color: white;
   white-space: nowrap;
-  font-size: large;
+  font-size: 16px;
   letter-spacing: 0.01em;
 }
