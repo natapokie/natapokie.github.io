@@ -2,181 +2,92 @@
 
 import Image, { StaticImageData } from "next/image";
 import styles from "./avatar.module.css";
-import base from "@/public/avatar/base.svg";
-import shirt from "@/public/avatar/shirt.svg";
-import hair1 from "@/public/avatar/hair-1.svg";
-import bangs1 from "@/public/avatar/bangs-1.svg";
-import sides from "@/public/avatar/side.svg";
-import eyeRightOpen from "@/public/avatar/eye-r-open.svg";
-import eyeLeftOpen from "@/public/avatar/eye-l-open.svg";
-import smile from "@/public/avatar/smile.svg";
-import iris from "@/public/avatar/iris.svg";
-import eyelashRightOpen from "@/public/avatar/eyelash-r-open.svg";
-import eyelashLeftOpen from "@/public/avatar/eyelash-l-open.svg";
-import eyeRightClosed from "@/public/avatar/eye-r-close.svg";
-import eyeLeftClosed from "@/public/avatar/eye-l-close.svg";
-import eyeRightMidClosed from "@/public/avatar/eye-r-mid.svg";
-import eyeLeftMidClosed from "@/public/avatar/eye-l-mid.svg";
-import eyelashRightMidClosed from "@/public/avatar/eyelash-r-mid.svg";
-import eyelashLeftMidClosed from "@/public/avatar/eyelash-l-mid.svg";
-
 import { useEffect, useRef, useState } from "react";
+import {IAvatarEye, IAvatarHair} from "@/lib/types/avatar";
+import {
+  EyeLeft,
+  EyeRight,
+  EyeState,
+  Hairstyles,
+  Iris,
+  MouthStyles,
+  Neck,
+  ShirtStyles,
+  Skin,
+} from "@/lib/static/avatar";
 
-interface EyeProps {
-  img: StaticImageData;
-  style: string;
+export const AvatarHandler = () => {
+  // handle the avatar rendering & the appearance changing
+  // const [appearance, setAppearance] = useState<number>(3);
+
+  return(
+      <>
+        <div className="w-full h-full flex justify-between items-center" style={{
+          padding: "min(10%, 60px) 0",
+        }}>
+        <Avatar></Avatar>
+        </div>
+      </>
+  )
 }
 
-const EYE_STATE = {
-  OPEN: 0,
-  CLOSING: 1,
-  CLOSED: 2,
-};
+const Avatar = () => {
+  const [hair, setHair] = useState<IAvatarHair>(Hairstyles[3]);
+  const [mouth, setMouth] = useState<StaticImageData>(MouthStyles.smile);
+  const [shirt, setShirt] = useState<StaticImageData>(ShirtStyles[0]);
 
-const EYE_RIGHT: EyeProps[] = [
-  {
-    img: eyeRightOpen,
-    style: styles.eyeRightOpen,
-  },
-  {
-    img: eyeRightMidClosed,
-    style: styles.eyeRightMidClosed,
-  },
-  {
-    img: eyeRightClosed,
-    style: styles.eyeRightClosed,
-  },
-];
-
-const EYE_LEFT: EyeProps[] = [
-  {
-    img: eyeLeftOpen,
-    style: styles.eyeLeftOpen,
-  },
-  {
-    img: eyeLeftMidClosed,
-    style: styles.eyeLeftMidClosed,
-  },
-  {
-    img: eyeLeftClosed,
-    style: styles.eyeLeftClosed,
-  },
-];
-
-const EYELASH_RIGHT: EyeProps[] = [
-  {
-    img: eyelashRightOpen,
-    style: styles.eyelashRightOpen,
-  },
-  {
-    img: eyelashRightMidClosed,
-    style: styles.eyelashRightMidClosed,
-  },
-];
-
-const EYELASH_LEFT: EyeProps[] = [
-  {
-    img: eyelashLeftOpen,
-    style: styles.eyelashLeftOpen,
-  },
-  {
-    img: eyelashLeftMidClosed,
-    style: styles.eyelashLeftMidClosed,
-  },
-];
-
-export const Avatar = () => {
   return (
     <>
-      <div className="relative origin-center w-[674px] h-[1021.6px]">
+
+      <div className="flex justify-center items-center relative origin-center w-full h-full bg-amber-200">
+        <Image src={hair.hairBack} alt="hair-back" className={styles.base}></Image>
+        <Image src={Neck} alt="nexk" className={styles.base}></Image>
+        <Image src={shirt} alt="shirt" className={styles.base}></Image>
+        {hair?.hairMiddle && (
+            <Image src={hair.hairMiddle} alt="skin" className={styles.base}></Image>
+        )}
+        <Image src={Skin} alt="skin" className={styles.base}></Image>
+        <Image src={mouth} alt="smile" className={styles.base}></Image>
+        <Image src={mouth} alt="smile" className={styles.base}></Image>
+
+        <Eye irisImg={Iris.left} irisClass="iris-style" eyeMap={EyeLeft} />
+        <Eye irisImg={Iris.right} irisClass="iris-style" eyeMap={EyeRight} />
+
+        <Image src={hair.hairSide} alt="hair-side" className={styles.base}></Image>
         <Image
-          src={hair1}
-          alt="hair"
-          className={`absolute ${styles.hair1}`}
-        ></Image>
-        <Image
-          src={base}
-          alt="base"
-          className={`absolute ${styles.base}`}
+          src={hair.hairFront}
+          alt="hair-front"
+          className={styles.base}
         ></Image>
 
-        <Image
-          src={shirt}
-          alt="shirt"
-          className={`absolute ${styles.shirt}`}
-        ></Image>
-        <Image
-          src={sides}
-          alt="sides"
-          className={`absolute ${styles.sides}`}
-        ></Image>
-        <Image
-          src={bangs1}
-          alt="bangs"
-          className={`absolute ${styles.bangs1}`}
-        ></Image>
-        <Image
-          src={smile}
-          alt="smile"
-          className={`absolute ${styles.smile}`}
-        ></Image>
-
-        <div className="absolute top-[254.4px] left-[94.18px]">
-          <Eye
-            irisImg={iris}
-            irisClass={styles.irisLeft}
-            eyeImages={EYE_LEFT}
-            eyeLashImages={EYELASH_LEFT}
-          />
-        </div>
-        <div className="absolute top-[255.05px] left-[377.98px]">
-          <Eye
-            irisImg={iris}
-            irisClass={styles.irisRight}
-            eyeImages={EYE_RIGHT}
-            eyeLashImages={EYELASH_RIGHT}
-          />
-        </div>
       </div>
     </>
   );
 };
 
-const Eye = ({
-  irisImg,
-  irisClass,
-  eyeImages,
-  eyeLashImages,
-}: {
+interface EyeProps {
   irisImg: StaticImageData;
   irisClass: string;
-  eyeImages: EyeProps[];
-  eyeLashImages: EyeProps[];
-}) => {
+  eyeMap: Record<EyeState, IAvatarEye>;
+}
+
+const Eye = ({ irisImg, irisClass, eyeMap }: EyeProps) => {
   const eyeRef = useRef<HTMLDivElement | null>(null);
   const [position, setPosition] = useState({ x: "0px", y: "0px" });
-  const [eyeState, setEyeState] = useState(0); // this is the frame in the array
+  const [eyeState, setEyeState] = useState<EyeState>(EyeState.OPEN);
 
   useEffect(() => {
     let timeoutId: NodeJS.Timeout;
 
-    if (eyeState === EYE_STATE.OPEN) {
-      timeoutId = setTimeout(() => {
-        setEyeState(eyeState + 1);
-      }, 5000);
-    } else if (eyeState === EYE_STATE.CLOSED) {
-      timeoutId = setTimeout(() => {
-        setEyeState(0);
-      }, 300);
+    if (eyeState === EyeState.OPEN) {
+      timeoutId = setTimeout(() => setEyeState(EyeState.CLOSING), 5000);
+    } else if (eyeState === EyeState.CLOSING) {
+      timeoutId = setTimeout(() => setEyeState(EyeState.CLOSED), 50);
     } else {
-      timeoutId = setTimeout(() => {
-        setEyeState(eyeState + 1);
-      }, 50);
+      timeoutId = setTimeout(() => setEyeState(EyeState.OPEN), 300);
     }
 
-    return () => {
-      clearTimeout(timeoutId);
-    };
+    return () => clearTimeout(timeoutId);
   }, [eyeState]);
 
   useEffect(() => {
@@ -192,36 +103,31 @@ const Eye = ({
     return () => window.removeEventListener("mousemove", handleMouseMove);
   }, []);
 
+  const { base, eyelash } = eyeMap[eyeState];
+
   return (
-    <div ref={eyeRef} className="relative w-[162.92px] h-[234.58px]">
-      {eyeImages.map((eye, index) => (
+      <div ref={eyeRef}>
         <Image
-          key={index}
-          src={eye.img}
-          alt="eye"
-          className={`absolute ${eyeImages[eyeState].style}`}
-          style={{ display: eyeState === index ? "unset" : "none" }}
+            src={base}
+            alt="eye"
+            className={`${styles.base}`}
         />
-      ))}
-      <Image
-        src={irisImg}
-        alt="iris"
-        className={`absolute ${irisClass}`}
-        style={{
-          transform: `translate(${position.x}, ${position.y})`,
-          display: eyeState !== EYE_STATE.CLOSED ? "unset" : "none",
-        }}
-      />
-      {eyeLashImages.map((eyeLash, index) => (
-        <Image
-          key={index}
-          src={eyeLash.img}
-          alt="eyelash"
-          className={`absolute ${eyeLash.style}`}
-          style={{ display: eyeState === index ? "unset" : "none" }}
-        />
-      ))}
-    </div>
+        {eyeState !== EyeState.CLOSED && (
+            <Image
+                src={irisImg}
+                alt="iris"
+                className={`${styles.base}`}
+                style={{ transform: `translate(${position.x}, ${position.y})` }}
+            />
+        )}
+        {eyelash && (
+            <Image
+                src={eyelash}
+                alt="eyelash"
+                className={`${styles.base}`}
+            />
+        )}
+      </div>
   );
 };
 
