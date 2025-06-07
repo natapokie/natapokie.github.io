@@ -22,9 +22,7 @@ export const AvatarHandler = () => {
 
   return(
       <>
-        <div className="w-full h-full flex justify-between items-center" style={{
-          padding: "min(10%, 60px) 0",
-        }}>
+        <div className="w-full h-full flex justify-between items-center py-[80px] px-[20px] md:py-[60px] md:px-0">
         <Avatar></Avatar>
         </div>
       </>
@@ -39,7 +37,7 @@ const Avatar = () => {
   return (
     <>
 
-      <div className="flex justify-center items-center relative origin-center w-full h-full bg-amber-200">
+      <div className="flex justify-center items-center relative origin-center w-full h-full max-h-[430px] md:max-h-[650px] bg-amber-200">
         <Image src={hair.hairBack} alt="hair-back" className={styles.base}></Image>
         <Image src={Neck} alt="nexk" className={styles.base}></Image>
         <Image src={shirt} alt="shirt" className={styles.base}></Image>
