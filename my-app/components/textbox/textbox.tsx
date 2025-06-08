@@ -1,12 +1,13 @@
-"use client";
+'use client';
 
-import React, { useEffect, useRef, useState } from "react";
-import Image from "next/image";
-import styles from "./textbox.module.css";
+import React, { useEffect, useRef, useState } from 'react';
+import Image from 'next/image';
+import styles from './textbox.module.css';
 
-import textBox from "@/public/textbox/container.svg";
-import arrow from "@/public/textbox/chat_arrow.svg";
-import optionArrow from "@/public/textbox/option_arrow.svg";
+import textBox from '@/public/textbox/container.svg';
+import textBoxMobile from '@/public/textbox/container-mobile.svg';
+import arrow from '@/public/textbox/chat_arrow.svg';
+import optionArrow from '@/public/textbox/option_arrow.svg';
 
 interface TextBoxProps {
   name?: string;
@@ -46,7 +47,7 @@ const DialogBox: React.FC<TextBoxProps> = ({
 
   const navigateOptions = (up: boolean) => {
     const options = value[currentTextIndex]?.optionsList || [];
-    setSelectedOptionIndex((prevIndex) => {
+    setSelectedOptionIndex(prevIndex => {
       if (up) {
         // select the previous option
         return prevIndex > 0 ? prevIndex - 1 : options.length - 1;
@@ -68,27 +69,27 @@ const DialogBox: React.FC<TextBoxProps> = ({
   const handleOptionClick = (index: number) => {
     // do stuff with selected option
     setDisplayOptions(false);
-    setCurrentTextIndex((prevIndex) => prevIndex + 1);
+    setCurrentTextIndex(prevIndex => prevIndex + 1);
     setCurrentTextDisplayed(false);
   };
 
   useEffect(() => {
     const handleKeyDown = (event: KeyboardEvent) => {
-      if (event.key === "ArrowUp") {
+      if (event.key === 'ArrowUp') {
         if (displayOptions) {
           navigateOptions(true);
         }
-      } else if (event.key === "ArrowDown") {
+      } else if (event.key === 'ArrowDown') {
         if (!displayOptions) {
           navigateDialog();
         } else {
           navigateOptions(false);
         }
-      } else if (event.key === "ArrowRight") {
+      } else if (event.key === 'ArrowRight') {
         if (!displayOptions) {
           navigateDialog();
         }
-      } else if (event.key === "Enter") {
+      } else if (event.key === 'Enter') {
         if (displayOptions) {
           // handle option selection
           handleOptionClick(selectedOptionIndex);
@@ -99,11 +100,11 @@ const DialogBox: React.FC<TextBoxProps> = ({
     };
 
     if (!displayedAllText) {
-      window.addEventListener("keydown", handleKeyDown);
+      window.addEventListener('keydown', handleKeyDown);
     } else {
-      window.removeEventListener("keydown", handleKeyDown);
+      window.removeEventListener('keydown', handleKeyDown);
     }
-    return () => window.removeEventListener("keydown", handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
   }, [
     displayOptions,
     selectedOptionIndex,
@@ -132,7 +133,7 @@ const DialogBox: React.FC<TextBoxProps> = ({
 
   const onArrowClick = () => {
     // switch to next text blurb
-    setCurrentTextIndex((prevIndex) => prevIndex + 1);
+    setCurrentTextIndex(prevIndex => prevIndex + 1);
     setDisplayArrow(false);
     setCurrentTextDisplayed(false);
   };
@@ -140,36 +141,44 @@ const DialogBox: React.FC<TextBoxProps> = ({
   return (
     <>
       <div
-        className={`relative w-[869px] h-[246.23px] ${
+        className={`relative w-full h-full justify-center items-center max-h-[170px] md:max-h-full ${
           displayedAllText
             ? styles.textBoxContainerHidden
             : styles.textBoxContainer
         }`}
       >
-        <Image
-          src={textBox}
-          alt="textbox"
-          className={`${styles.textBox}`}
-        ></Image>
-        <div className={styles.nameBox}>{name ?? "? ? ?"}</div>
+        <div className={styles.textBox}>
+          <Image
+            src={textBox}
+            alt="textbox"
+            className={`relative w-full h-full hidden md:block`}
+          ></Image>
+          <Image
+            src={textBoxMobile}
+            alt="textbox"
+            className={`relative w-full h-full block md:hidden`}
+          ></Image>
+
+          <div className={`${styles.text}`}>
+            <Typewriter
+              text={value[currentTextIndex]?.dialog}
+              speed={50}
+              completeImmediately={completeTextImmediately}
+              onComplete={handleTextComplete}
+            />
+          </div>
+        </div>
+
+        <div className={styles.nameBox}>{name ?? '? ? ?'}</div>
 
         {displayArrow && (
           <Image
             src={arrow}
             alt="arrow"
-            className={styles.arrow}
+            className={`h-auto w-[25px] md:w-[36px] ${styles.arrow}`}
             onClick={onArrowClick}
           ></Image>
         )}
-
-        <div className={styles.text}>
-          <Typewriter
-            text={value[currentTextIndex]?.dialog}
-            speed={50}
-            completeImmediately={completeTextImmediately}
-            onComplete={handleTextComplete}
-          />
-        </div>
 
         <div
           className={`${styles.optionsList} ${
@@ -188,12 +197,12 @@ const DialogBox: React.FC<TextBoxProps> = ({
                 <Image
                   src={optionArrow}
                   alt="option arrow"
-                  className={styles.optionArrow}
+                  className={`h-[25px] md:h-[36px] w-auto ${styles.optionArrow}`}
                 ></Image>
               )}
               <div
                 className={`${styles.optionHighlight} ${
-                  selectedOptionIndex === index ? "opacity-100" : "opacity-0"
+                  selectedOptionIndex === index ? 'opacity-100' : 'opacity-0'
                 }`}
               ></div>
               <span className="relative z-10">{option}</span>
@@ -206,7 +215,7 @@ const DialogBox: React.FC<TextBoxProps> = ({
 };
 
 const Typewriter = ({
-  text = "",
+  text = '',
   speed = 50,
   completeImmediately = false,
   onComplete,
@@ -216,7 +225,7 @@ const Typewriter = ({
   completeImmediately?: boolean;
   onComplete?: () => void;
 }) => {
-  const [displayedText, setDisplayedText] = useState("");
+  const [displayedText, setDisplayedText] = useState('');
   const intervalRef = useRef<NodeJS.Timeout | null>(null);
 
   useEffect(() => {
@@ -224,7 +233,7 @@ const Typewriter = ({
     setDisplayedText(text.charAt(index));
 
     intervalRef.current = setInterval(() => {
-      setDisplayedText((prev) => prev + text?.charAt(index));
+      setDisplayedText(prev => prev + text?.charAt(index));
       index++;
       if (index >= text.length) {
         clearInterval(intervalRef.current!);
@@ -245,7 +254,7 @@ const Typewriter = ({
   useEffect(() => {
     if (completeImmediately) {
       // clear the interval, and display full text
-      console.log("completeImmediately", completeImmediately);
+      console.log('completeImmediately', completeImmediately);
       clearInterval(intervalRef.current!);
       setDisplayedText(text);
     }

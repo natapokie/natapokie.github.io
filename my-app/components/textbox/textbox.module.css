@@ -1,57 +1,79 @@
 .textBox {
   position: absolute;
-  top: 32px;
-  left: 0;
+  inset: 0;
+  height: 100%;
+  width: fit-content;
+  margin: 0 auto;
+
+  @media (min-width: 768px) {
+    max-height: 100%;
+  }
 }
 
 .nameBox {
   position: absolute;
-  top: 5px;
-  left: 58px;
+  top: -20px;
+  left: 50%;
 
   background-color: var(--rosy-brown);
-  padding: 10px 40px;
+  padding: 8px 30px;
+
   border-radius: 50px;
 
   color: var(--white);
-  font-size: xx-large;
+  font-size: 20px;
   font-weight: 900;
   letter-spacing: 0.07em;
 
-  transform: rotate(-5deg);
+  transform: translateX(-125%) rotate(-5deg);
+
+  @media (min-width: 768px) {
+    font-size: 24px;
+    padding: 10px 40px;
+    transform: translateX(-175%) rotate(-5deg);
+  }
 }
 
 .text {
   position: absolute;
-  top: 85px;
+  top: 0;
   left: 50%;
   transform: translateX(-50%);
 
   width: 80%;
 
+  padding: 36px 0;
+
   color: var(--liver);
-  font-size: 30px;
+  font-size: 18px;
   font-weight: bold;
   letter-spacing: 0.07em;
+
+  @media (min-width: 768px) {
+    padding: 45px 0;
+    font-size: 24px;
+  }
 }
 
 .arrow {
   position: absolute;
-  right: 50%;
-  top: 92%;
+  left: 50%;
+  bottom: -5px;
   cursor: pointer;
   animation: bounceY 1.5s ease-in-out infinite;
-  transition: transform 0.2s ease;
-  /* transform: translateY(0) scale(1) scaleY(1); */
+
+  @media (min-width: 768px) {
+    bottom: -10px;
+  }
 }
 
 @keyframes bounceY {
   0%,
   100% {
-    transform: translateY(0) scaleY(1);
+    transform: translateY(0) scaleY(1) translateX(-50%);
   }
   50% {
-    transform: translateY(10px) scaleY(0.85);
+    transform: translateY(10px) scaleY(0.85) translateX(-50%);
   }
 }
 
@@ -66,24 +88,26 @@
 }
 
 .optionsList {
-  /* display: none; */
-  /* position: absolute; */
   position: relative;
-  top: -275px;
-  right: -700px;
-  padding: 30px 50px;
+  top: -170px;
+  left: 135px;
+  padding: 25px 32px;
   width: fit-content;
 
   display: flex;
   flex-direction: column;
-  row-gap: 5px;
 
-  border-radius: 100px;
+  border-radius: 70px;
 
   background-color: var(--cavern-pink);
 
-  /* transform: translate(700px, -250px); */
   transition: transform 0.2s ease;
+
+  @media (min-width: 768px) {
+    top: -215px;
+    left: calc(50% + 135px);
+    padding: 30px 50px;
+  }
 }
 
 .optionsListHidden {
@@ -93,7 +117,6 @@
 }
 
 .optionsListVisible {
-  /* display: unset; */
   transform: scale(1);
   transition: transform 0.2s ease;
 }
@@ -104,41 +127,46 @@
   height: fit-content;
 
   color: var(--liver);
-  font-size: xx-large;
+  font-size: 18px;
   font-weight: 900;
   letter-spacing: 0.07em;
 
   cursor: pointer;
+
+  @media (min-width: 768px) {
+    font-size: 24px;
+  }
 }
 
 .optionArrow {
   position: absolute;
-  /* position: relative; */
-  /* top: 53px;
-  left: -4px; */
-
   animation: bounceX 1.5s ease-in-out infinite;
 }
 
 .optionHighlight {
   position: relative;
-  top: 42px;
+  top: 26px;
   left: -5px;
 
-  height: 16px;
+  height: 10px;
   width: calc(100% + 10px);
 
   background-color: var(--old-rose);
 
   border-radius: 100px;
+
+  @media (min-width: 768px) {
+    top: 32px;
+    font-size: 24px;
+  }
 }
 
 @keyframes bounceX {
   0%,
   100% {
-    transform: translate(-55px, 20px) scaleX(1);
+    transform: translate(-55px, 10px) scaleX(1);
   }
   50% {
-    transform: translate(-45px, 20px) scaleX(0.95);
+    transform: translate(-45px, 10px) scaleX(0.95);
   }
 }

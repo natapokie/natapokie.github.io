@@ -28,17 +28,14 @@ export default function Home() {
     <>
       <div className="w-full h-full flex justify-center items-center p-5 page">
         <AvatarHandler></AvatarHandler>
-        <div className="absolute left-1/2 bottom-[230px] transform -translate-x-1/2">
-          <DialogBox
-            name={"Natalie"}
-            value={IntroText}
-            onComplete={dialogComplete}
-          ></DialogBox>
+        <div className="absolute w-full h-full flex justify-center items-center pt-[65vh] pb-[15vh] md:pt-[72vh] md:pb-[7vh]">
+              <DialogBox
+                name={"Natalie"}
+                value={IntroText}
+                onComplete={dialogComplete}
+              ></DialogBox>
         </div>
-        {/* </div> */}
       </div>
-
-      {/* <TextBox value={IntroText}></TextBox> */}
     </>
   );
 }
