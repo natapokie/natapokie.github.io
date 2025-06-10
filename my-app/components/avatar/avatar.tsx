@@ -15,6 +15,7 @@ import {
   ShirtStyles,
   Skin,
 } from "@/lib/static/avatar";
+import { useCustomizationContext } from '@/context/CustomizationContext';
 
 export const AvatarHandler = () => {
   // handle the avatar rendering & the appearance changing
@@ -30,19 +31,23 @@ export const AvatarHandler = () => {
 }
 
 const Avatar = () => {
-  const [hair, setHair] = useState<IAvatarHair>(Hairstyles[3]);
+  const { avatarStyles } = useCustomizationContext();
+
+  // const [hair, setHair] = useState<IAvatarHair>(Hairstyles[customization.hairstyle]);
   const [mouth, setMouth] = useState<StaticImageData>(MouthStyles.smile);
-  const [shirt, setShirt] = useState<StaticImageData>(ShirtStyles[0]);
+  // const [shirt, setShirt] = useState<StaticImageData>(ShirtStyles[customization.shirt]);
+
+  // TODO: accessories
 
   return (
     <>
 
       <div className="flex justify-center items-center relative origin-center w-full h-full max-h-[430px] md:max-h-[650px]">
-        <Image src={hair.hairBack} alt="hair-back" className={styles.base}></Image>
+        <Image src={avatarStyles.hairstyle.hairBack} alt="hair-back" className={styles.base}></Image>
         <Image src={Neck} alt="nexk" className={styles.base}></Image>
-        <Image src={shirt} alt="shirt" className={styles.base}></Image>
-        {hair?.hairMiddle && (
-            <Image src={hair.hairMiddle} alt="skin" className={styles.base}></Image>
+        <Image src={avatarStyles.shirt} alt="shirt" className={styles.base}></Image>
+        {avatarStyles.hairstyle?.hairMiddle && (
+            <Image src={avatarStyles.hairstyle.hairMiddle} alt="skin" className={styles.base}></Image>
         )}
         <Image src={Skin} alt="skin" className={styles.base}></Image>
         <Image src={mouth} alt="smile" className={styles.base}></Image>
@@ -51,9 +56,9 @@ const Avatar = () => {
         <Eye irisImg={Iris.left} irisClass="iris-style" eyeMap={EyeLeft} />
         <Eye irisImg={Iris.right} irisClass="iris-style" eyeMap={EyeRight} />
 
-        <Image src={hair.hairSide} alt="hair-side" className={styles.base}></Image>
+        <Image src={avatarStyles.hairstyle.hairSide} alt="hair-side" className={styles.base}></Image>
         <Image
-          src={hair.hairFront}
+          src={avatarStyles.hairstyle.hairFront}
           alt="hair-front"
           className={styles.base}
         ></Image>

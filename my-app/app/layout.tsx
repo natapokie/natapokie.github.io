@@ -3,7 +3,7 @@
 import "./globals.css";
 import TransitionMask from "@/components/transitions/transitionMask";
 import Navbar from "@/components/navbar/navbar";
-import { useEffect, useState } from "react";
+import { ReactNode, useEffect, useState } from 'react';
 import { NavbarProvider } from "@/context/NavbarContext";
 
 const MOUSE_ACTIVITY_TIMEOUT = 10_000; // 10 seconds
@@ -11,7 +11,7 @@ const MOUSE_ACTIVITY_TIMEOUT = 10_000; // 10 seconds
 export default function RootLayout({
   children,
 }: Readonly<{
-  children: React.ReactNode;
+  children: ReactNode;
 }>) {
   const [showNavbar, setShowNavbar] = useState(false);
   const [showNavbarMouse, setShowNavbarMouse] = useState(false);

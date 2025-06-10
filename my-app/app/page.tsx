@@ -8,6 +8,8 @@ import {
   IntroText,
 } from "@/lib/static/intro";
 import { useRouter } from "next/navigation";
+import {CustomizationWindow} from "@/components/avatar/customization";
+import { CustomizationProvider } from '@/context/CustomizationContext';
 
 export default function Home() {
   const router = useRouter();
@@ -26,6 +28,7 @@ export default function Home() {
 
   return (
     <>
+      <CustomizationProvider>
       <div className="w-full h-full flex justify-center items-center p-5 page">
         <AvatarHandler></AvatarHandler>
         <div className="absolute w-full h-full flex justify-center items-center pt-[65vh] pb-[15vh] md:pt-[72vh] md:pb-[7vh]">
@@ -35,7 +38,9 @@ export default function Home() {
                 onComplete={dialogComplete}
               ></DialogBox>
         </div>
+        <CustomizationWindow></CustomizationWindow>
       </div>
+      </CustomizationProvider>
     </>
   );
 }

@@ -4,7 +4,7 @@ import HairFront2 from '@/public/avatar/hair-front/2.svg';
 import HairFront3 from '@/public/avatar/hair-front/3.svg';
 import HairFront4 from '@/public/avatar/hair-front/4.svg';
 import HairSideBlack from '@/public/avatar/hair-side/base.svg';
-import HairSidePurple from '@/public/avatar/hair-side/base.svg';
+import HairSidePurple from '@/public/avatar/hair-side/purple.svg';
 import HairMiddle4 from '@/public/avatar/hair-middle/4.svg';
 import HairBack1 from '@/public/avatar/hair-back/1.svg';
 import HairBack2 from '@/public/avatar/hair-back/2.svg';
