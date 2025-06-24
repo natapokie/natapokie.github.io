@@ -1,11 +1,11 @@
 'use client'
 import { NavbarItems } from '@/lib/static/intro';
 import { INavbarContext, INavbarItem } from '@/lib/types/navbarTypes';
-import { createContext, useContext, useState } from 'react';
+import { createContext, ReactNode, useContext, useState } from 'react';
 
 const NavbarContext = createContext<INavbarContext | undefined>(undefined);
 
-export function NavbarProvider({ children }: { children: React.ReactNode }) {
+export function NavbarProvider({ children }: { children: ReactNode }) {
     const [navbarState, setNavbarState] = useState<INavbarItem>(NavbarItems[0]);
 
     return (

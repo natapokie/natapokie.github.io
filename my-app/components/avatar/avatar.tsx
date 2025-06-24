@@ -1,53 +1,54 @@
-"use client";
+'use client';
 
-import Image, { StaticImageData } from "next/image";
-import styles from "./avatar.module.css";
-import { useEffect, useRef, useState } from "react";
-import {IAvatarEye, IAvatarHair} from "@/lib/types/avatar";
+import Image, { StaticImageData } from 'next/image';
+import styles from './avatar.module.css';
+import { useEffect, useRef, useState } from 'react';
+import { IAvatarEye } from '@/lib/types/avatar';
 import {
   EyeLeft,
   EyeRight,
   EyeState,
-  Hairstyles,
   Iris,
   MouthStyles,
   Neck,
-  ShirtStyles,
   Skin,
-} from "@/lib/static/avatar";
+} from '@/lib/static/avatar';
 import { useCustomizationContext } from '@/context/CustomizationContext';
 
 export const AvatarHandler = () => {
-  // handle the avatar rendering & the appearance changing
-  // const [appearance, setAppearance] = useState<number>(3);
-
-  return(
-      <>
-        <div className="w-full h-full flex justify-between items-center py-[80px] px-[20px] md:py-[60px] md:px-0">
+  return (
+    <>
+      <div className="w-full h-full flex justify-between items-center py-[80px] px-[20px] md:py-[60px] md:px-0">
         <Avatar></Avatar>
-        </div>
-      </>
-  )
-}
+      </div>
+    </>
+  );
+};
 
 const Avatar = () => {
-  const { avatarStyles } = useCustomizationContext();
-
-  // const [hair, setHair] = useState<IAvatarHair>(Hairstyles[customization.hairstyle]);
+  const { customizationImgs } = useCustomizationContext();
   const [mouth, setMouth] = useState<StaticImageData>(MouthStyles.smile);
-  // const [shirt, setShirt] = useState<StaticImageData>(ShirtStyles[customization.shirt]);
-
-  // TODO: accessories
 
   return (
     <>
-
       <div className="flex justify-center items-center relative origin-center w-full h-full max-h-[430px] md:max-h-[650px]">
-        <Image src={avatarStyles.hairstyle.hairBack} alt="hair-back" className={styles.base}></Image>
+        <Image
+          src={customizationImgs.hairstyle?.hairBack}
+          alt="hair-back"
+          className={styles.base}
+        ></Image>
         <Image src={Neck} alt="nexk" className={styles.base}></Image>
-        <Image src={avatarStyles.shirt} alt="shirt" className={styles.base}></Image>
-        {avatarStyles.hairstyle?.hairMiddle && (
-            <Image src={avatarStyles.hairstyle.hairMiddle} alt="skin" className={styles.base}></Image>
+        <Image
+          src={customizationImgs.shirt}
+          alt="shirt"
+          className={styles.base}
+        ></Image>
+        {customizationImgs.hairstyle?.hairMiddle && (
+          <Image
+            src={customizationImgs.hairstyle.hairMiddle}
+            alt="skin"
+            className={styles.base}
+          ></Image>
         )}
         <Image src={Skin} alt="skin" className={styles.base}></Image>
         <Image src={mouth} alt="smile" className={styles.base}></Image>
@@ -56,13 +57,28 @@ const Avatar = () => {
         <Eye irisImg={Iris.left} irisClass="iris-style" eyeMap={EyeLeft} />
         <Eye irisImg={Iris.right} irisClass="iris-style" eyeMap={EyeRight} />
 
-        <Image src={avatarStyles.hairstyle.hairSide} alt="hair-side" className={styles.base}></Image>
         <Image
-          src={avatarStyles.hairstyle.hairFront}
+          src={customizationImgs.hairstyle.hairSide}
+          alt="hair-side"
+          className={styles.base}
+        ></Image>
+        <Image
+          src={customizationImgs.hairstyle.hairFront}
           alt="hair-front"
           className={styles.base}
         ></Image>
 
+        {customizationImgs.accessories.map((accessory, index) => {
+          console.log(accessory, index);
+          return (
+              <Image
+                  key={index}
+                  src={accessory}
+                  alt="accessory"
+                  className={styles.base}
+              ></Image>
+          );
+        })}
       </div>
     </>
   );
@@ -76,7 +92,7 @@ interface EyeProps {
 
 const Eye = ({ irisImg, irisClass, eyeMap }: EyeProps) => {
   const eyeRef = useRef<HTMLDivElement | null>(null);
-  const [position, setPosition] = useState({ x: "0px", y: "0px" });
+  const [position, setPosition] = useState({ x: '0px', y: '0px' });
   const [eyeState, setEyeState] = useState<EyeState>(EyeState.OPEN);
 
   useEffect(() => {
@@ -102,35 +118,27 @@ const Eye = ({ irisImg, irisClass, eyeMap }: EyeProps) => {
       setPosition(offset);
     };
 
-    window.addEventListener("mousemove", handleMouseMove);
-    return () => window.removeEventListener("mousemove", handleMouseMove);
+    window.addEventListener('mousemove', handleMouseMove);
+    return () => window.removeEventListener('mousemove', handleMouseMove);
   }, []);
 
   const { base, eyelash } = eyeMap[eyeState];
 
   return (
-      <div ref={eyeRef}>
+    <div ref={eyeRef}>
+      <Image src={base} alt="eye" className={`${styles.base}`} />
+      {eyeState !== EyeState.CLOSED && (
         <Image
-            src={base}
-            alt="eye"
-            className={`${styles.base}`}
+          src={irisImg}
+          alt="iris"
+          className={`${styles.base}`}
+          style={{ transform: `translate(${position.x}, ${position.y})` }}
         />
-        {eyeState !== EyeState.CLOSED && (
-            <Image
-                src={irisImg}
-                alt="iris"
-                className={`${styles.base}`}
-                style={{ transform: `translate(${position.x}, ${position.y})` }}
-            />
-        )}
-        {eyelash && (
-            <Image
-                src={eyelash}
-                alt="eyelash"
-                className={`${styles.base}`}
-            />
-        )}
-      </div>
+      )}
+      {eyelash && (
+        <Image src={eyelash} alt="eyelash" className={`${styles.base}`} />
+      )}
+    </div>
   );
 };
 
@@ -140,7 +148,7 @@ export const calculateIrisOffset = (
   eyeRef: React.RefObject<HTMLDivElement>,
   maxOffset: { x: number; y: number }
 ) => {
-  if (!eyeRef.current) return { x: "0px", y: "0px" };
+  if (!eyeRef.current) return { x: '0px', y: '0px' };
 
   // relative to center of eye
   const rect = eyeRef.current.getBoundingClientRect();
