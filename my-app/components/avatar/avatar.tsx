@@ -2,7 +2,7 @@
 
 import Image, { StaticImageData } from 'next/image';
 import styles from './avatar.module.css';
-import { useEffect, useRef, useState } from 'react';
+import { RefObject, useEffect, useRef, useState } from 'react';
 import { IAvatarEye } from '@/lib/types/avatar';
 import {
   EyeLeft,
@@ -145,7 +145,7 @@ const Eye = ({ irisImg, irisClass, eyeMap }: EyeProps) => {
 export const calculateIrisOffset = (
   mouseX: number,
   mouseY: number,
-  eyeRef: React.RefObject<HTMLDivElement>,
+  eyeRef: RefObject<HTMLDivElement>,
   maxOffset: { x: number; y: number }
 ) => {
   if (!eyeRef.current) return { x: '0px', y: '0px' };
@@ -156,7 +156,7 @@ export const calculateIrisOffset = (
   const centerY = rect.top + rect.height / 2;
 
   // clamp mouse position to prevent iris lagging behind
-  const clampMouseX = Math.min(1000, Math.max(mouseX, 450));
+  const clampMouseX = Math.min(1185, Math.max(mouseX, 770));
   const clampMouseY = Math.min(630, Math.max(mouseY, 340));
 
   const dx = clampMouseX - centerX;
