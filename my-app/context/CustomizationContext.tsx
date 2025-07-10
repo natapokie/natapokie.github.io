@@ -65,13 +65,15 @@ export const CustomizationProvider = ({
   children: ReactNode;
 }) => {
   const [customization, setCustomization] = useState<CustomizationType>(() => {
-    const saved = localStorage.getItem(CUSTOMIZATION_KEY);
-    if (saved) {
-      try {
-        const parsed = JSON.parse(saved);
-        if (parsed) return parsed;
-      } catch {
-        console.log('Error parsing customization, using default');
+    if (typeof window !== 'undefined') {
+      const saved = localStorage.getItem(CUSTOMIZATION_KEY);
+      if (saved) {
+        try {
+          const parsed = JSON.parse(saved);
+          if (parsed) return parsed;
+        } catch {
+          console.log('Error parsing customization, using default');
+        }
       }
     }
     return defaultCustomization;
