@@ -10,7 +10,7 @@ import Image from "next/image";
 import Link from "next/link";
 import Header from "../common/header/header";
 import styles from "./aboutContents.module.css";
-import ProfileImage from "@/public/todo.jpg"; // Update with your actual image path
+import ProfileImage from "@/public/about/profile.jpeg"; // Update with your actual image path
 
 export default function AboutContents() {
   return (

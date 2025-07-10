@@ -8,5 +8,5 @@ export type INavbarContext = {
 export type INavbarItem = {
   name: string;
   icon: StaticImageData;
-  route: string;
+  route?: string;
 };

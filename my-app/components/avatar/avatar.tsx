@@ -28,57 +28,110 @@ export const AvatarHandler = () => {
 const Avatar = () => {
   const { customizationImgs } = useCustomizationContext();
   const [mouth, setMouth] = useState<StaticImageData>(MouthStyles.smile);
+  const [baseLoaded, setBaseLoaded] = useState<{ [key: string]: boolean }>({
+    rightEye: false,
+    leftEye: false,
+    neck: false,
+    skin: false,
+    mouth: false,
+  });
+  const [allLoaded, setAllLoaded] = useState(false);
+
+  useEffect(() => {
+    const allTrue = Object.values(baseLoaded).every(Boolean);
+    setAllLoaded(allTrue);
+  }, [baseLoaded]);
+
+  const onImageLoad = (part?: string) => {
+    console.log('onImageLoad');
+    if (part) {
+      setBaseLoaded(prev => ({ ...prev, [part]: true }));
+    }
+  };
 
   return (
     <>
       <div className="flex justify-center items-center relative origin-center w-full h-full max-h-[430px] md:max-h-[650px]">
         <Image
-          src={customizationImgs.hairstyle?.hairBack}
+          src={customizationImgs.hairstyle.hairBack}
           alt="hair-back"
           className={styles.base}
+          onLoad={() => onImageLoad()}
         ></Image>
-        <Image src={Neck} alt="nexk" className={styles.base}></Image>
+        <Image
+          src={Neck}
+          alt="nexk"
+          className={styles.base}
+          onLoad={() => onImageLoad('neck')}
+        ></Image>
         <Image
           src={customizationImgs.shirt}
           alt="shirt"
           className={styles.base}
+          onLoad={() => onImageLoad()}
         ></Image>
         {customizationImgs.hairstyle?.hairMiddle && (
           <Image
             src={customizationImgs.hairstyle.hairMiddle}
             alt="skin"
             className={styles.base}
+            onLoad={() => onImageLoad()}
           ></Image>
         )}
-        <Image src={Skin} alt="skin" className={styles.base}></Image>
-        <Image src={mouth} alt="smile" className={styles.base}></Image>
-        <Image src={mouth} alt="smile" className={styles.base}></Image>
+        <Image
+          src={Skin}
+          alt="skin"
+          className={styles.base}
+          onLoad={() => onImageLoad('skin')}
+        ></Image>
+        <Image
+          src={mouth}
+          alt="smile"
+          className={styles.base}
+          onLoad={() => onImageLoad('mouth')}
+        ></Image>
 
-        <Eye irisImg={Iris.left} irisClass="iris-style" eyeMap={EyeLeft} />
-        <Eye irisImg={Iris.right} irisClass="iris-style" eyeMap={EyeRight} />
+        <Eye
+          irisImg={Iris.left}
+          eyeMap={EyeLeft}
+          onFinishLoad={() => onImageLoad('leftEye')}
+        />
+        <Eye
+          irisImg={Iris.right}
+          eyeMap={EyeRight}
+          onFinishLoad={() => onImageLoad('rightEye')}
+        />
 
         <Image
           src={customizationImgs.hairstyle.hairSide}
           alt="hair-side"
           className={styles.base}
+          onLoad={e => onImageLoad()}
         ></Image>
         <Image
           src={customizationImgs.hairstyle.hairFront}
           alt="hair-front"
           className={styles.base}
+          onLoad={e => onImageLoad()}
         ></Image>
 
         {customizationImgs.accessories.map((accessory, index) => {
-          console.log(accessory, index);
           return (
-              <Image
-                  key={index}
-                  src={accessory}
-                  alt="accessory"
-                  className={styles.base}
-              ></Image>
+            <Image
+              key={index}
+              src={accessory}
+              alt="accessory"
+              className={styles.base}
+              onLoad={e => onImageLoad()}
+            ></Image>
           );
         })}
+
+        {!allLoaded && (
+          <div className="w-full h-full absolute inset-0 bg-[var(--background)]">
+            LOADING OVERLAY (BASICALLY A BG)
+          </div>
+        )}
       </div>
     </>
   );
@@ -86,14 +139,27 @@ const Avatar = () => {
 
 interface EyeProps {
   irisImg: StaticImageData;
-  irisClass: string;
   eyeMap: Record<EyeState, IAvatarEye>;
+  onFinishLoad: () => void;
 }
 
-const Eye = ({ irisImg, irisClass, eyeMap }: EyeProps) => {
+const Eye = ({ irisImg, eyeMap, onFinishLoad }: EyeProps) => {
   const eyeRef = useRef<HTMLDivElement | null>(null);
   const [position, setPosition] = useState({ x: '0px', y: '0px' });
   const [eyeState, setEyeState] = useState<EyeState>(EyeState.OPEN);
+  const [loadedCount, setLoadedCount] = useState(0);
+
+  const { base, eyelash } = eyeMap[eyeState];
+
+  const onLoad = () => {
+    setLoadedCount(prev => prev + 1);
+  };
+
+  useEffect(() => {
+    if (loadedCount === 3) {
+      onFinishLoad();
+    }
+  }, [loadedCount]);
 
   useEffect(() => {
     let timeoutId: NodeJS.Timeout;
@@ -112,8 +178,8 @@ const Eye = ({ irisImg, irisClass, eyeMap }: EyeProps) => {
   useEffect(() => {
     const handleMouseMove = (e: MouseEvent) => {
       const offset = calculateIrisOffset(e.pageX, e.pageY, eyeRef, {
-        x: 20,
-        y: 10,
+        x: 10,
+        y: 5,
       });
       setPosition(offset);
     };
@@ -122,21 +188,31 @@ const Eye = ({ irisImg, irisClass, eyeMap }: EyeProps) => {
     return () => window.removeEventListener('mousemove', handleMouseMove);
   }, []);
 
-  const { base, eyelash } = eyeMap[eyeState];
-
   return (
     <div ref={eyeRef}>
-      <Image src={base} alt="eye" className={`${styles.base}`} />
-      {eyeState !== EyeState.CLOSED && (
-        <Image
-          src={irisImg}
-          alt="iris"
-          className={`${styles.base}`}
-          style={{ transform: `translate(${position.x}, ${position.y})` }}
-        />
-      )}
+      <Image
+        src={base}
+        alt="eye"
+        className={`${styles.base}`}
+        onLoad={onLoad}
+      />
+      <Image
+        src={irisImg}
+        alt="iris"
+        className={`${styles.base}`}
+        style={{
+          transform: `translate(${position.x}, ${position.y})`,
+          display: eyeState !== EyeState.CLOSED ? 'unset' : 'none',
+        }}
+        onLoad={onLoad}
+      />
       {eyelash && (
-        <Image src={eyelash} alt="eyelash" className={`${styles.base}`} />
+        <Image
+          src={eyelash}
+          alt="eyelash"
+          className={`${styles.base}`}
+          onLoad={onLoad}
+        />
       )}
     </div>
   );
@@ -150,24 +226,22 @@ export const calculateIrisOffset = (
 ) => {
   if (!eyeRef.current) return { x: '0px', y: '0px' };
 
-  // relative to center of eye
   const rect = eyeRef.current.getBoundingClientRect();
   const centerX = rect.left + rect.width / 2;
   const centerY = rect.top + rect.height / 2;
 
-  // clamp mouse position to prevent iris lagging behind
-  const clampMouseX = Math.min(1185, Math.max(mouseX, 770));
-  const clampMouseY = Math.min(630, Math.max(mouseY, 340));
+  const dx = mouseX - centerX;
+  const dy = mouseY - centerY;
 
-  const dx = clampMouseX - centerX;
-  const dy = clampMouseY - centerY;
+  // Max distance you consider relevant for eye tracking
+  const maxDistance = 100; // pixels from center where iris reaches max offset
 
-  // normalize and more clamp
-  const clamp = (value: number, max: number) =>
-    Math.max(-max, Math.min(value / 20, max));
+  // Normalize dx and dy to range [-1, 1], with clamping
+  const normalizedX = Math.max(-1, Math.min(1, dx / maxDistance));
+  const normalizedY = Math.max(-1, Math.min(1, dy / maxDistance));
 
   return {
-    x: `${clamp(dx, maxOffset.x)}px`,
-    y: `${clamp(dy, maxOffset.y)}px`,
+    x: `${normalizedX * maxOffset.x}px`,
+    y: `${normalizedY * maxOffset.y}px`,
   };
 };

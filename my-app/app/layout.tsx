@@ -5,6 +5,7 @@ import TransitionMask from "@/components/transitions/transitionMask";
 import Navbar from "@/components/navbar/navbar";
 import { ReactNode, useEffect, useState } from 'react';
 import { NavbarProvider } from "@/context/NavbarContext";
+import { CustomizationProvider } from '@/context/CustomizationContext';
 
 const MOUSE_ACTIVITY_TIMEOUT = 10_000; // 10 seconds
 
@@ -55,6 +56,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={`h-screen w-screen overflow-hidden`}>
+      <CustomizationProvider>
         <NavbarProvider>
           {children}
           <TransitionMask />
@@ -66,6 +68,7 @@ export default function RootLayout({
             <Navbar />
           </div>
         </NavbarProvider>
+      </CustomizationProvider>
       </body>
     </html>
   );

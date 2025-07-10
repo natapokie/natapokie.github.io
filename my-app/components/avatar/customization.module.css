@@ -1,62 +1,79 @@
+.baseContainer {
+  transition:
+    opacity 0.3s ease,
+    transform 0.3s ease;
+}
+
+.show {
+  opacity: 1;
+  transform: scale(1);
+  pointer-events: auto;
+}
+
+.hide {
+  opacity: 0;
+  transform: scale(0);
+  pointer-events: none;
+}
+
 .optionBox {
-    position: relative;
-    display: grid;
-    place-items: center;
+  position: relative;
+  display: grid;
+  place-items: center;
 
-    width: 100%;
-    aspect-ratio: 1/1;
+  width: 100%;
+  aspect-ratio: 1/1;
 
-    border-radius: 40px;
+  border-radius: 40px;
 
-    background-color: var(--white);
+  background-color: var(--white);
 
-    border: 6px solid transparent;
-    transition: border ease 300ms;
+  border: 6px solid transparent;
+  transition: border ease 300ms;
 }
 
 .optionBox:hover {
-    .optionImage {
-        transform: scale(1.05);
-    }
+  .optionImage {
+    transform: scale(1.05);
+  }
 }
 
 .optionBoxSelected {
-    border: 6px solid var(--bittersweet-shimmer);
-    transition: border ease 300ms;
+  border: 6px solid var(--bittersweet-shimmer);
+  transition: border ease 300ms;
 }
 
 .optionImage {
-    width: 80%;
-    height: auto;
-    transform: scale(1);
-    transition: transform ease 300ms;
+  width: 80%;
+  height: auto;
+  transform: scale(1);
+  transition: transform ease 300ms;
 }
 
 .checkIconContainer {
-        display: grid;
-        place-content: center;
+  display: grid;
+  place-content: center;
 
-    position: absolute;
-    top: -10px;
-    right: -10px;
+  position: absolute;
+  top: -10px;
+  right: -10px;
 
-    width: 30px;
-    height: 30px;
+  width: 30px;
+  height: 30px;
 
-    background-color: var(--bittersweet-shimmer);
-    border-radius: 100px;
+  background-color: var(--bittersweet-shimmer);
+  border-radius: 100px;
 }
 
 .checkIcon {
-    width: 100%;
-    height: 100%;
+  width: 100%;
+  height: 100%;
 }
 
 .checkIconText {
-    text-align: center;
-    vertical-align: middle;
+  text-align: center;
+  vertical-align: middle;
 
-    color: var(--white);
-    font-weight: 500;
+  color: var(--white);
+  font-weight: 500;
 }
-

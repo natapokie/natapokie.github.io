@@ -1,24 +1,37 @@
-"use client";
+'use client';
 
-import { NavbarItems } from "@/lib/static/intro";
-import styles from "./navbar.module.css";
-import Image from "next/image";
-import { useEffect, useState } from "react";
-import { usePathname, useRouter } from "next/navigation";
-import { useNavbarContext } from "@/context/NavbarContext";
+import { NavbarItems } from '@/lib/static/intro';
+import styles from './navbar.module.css';
+import Image from 'next/image';
+import { useEffect } from 'react';
+import { usePathname, useRouter } from 'next/navigation';
+import { useNavbarContext } from '@/context/NavbarContext';
+import { useCustomizationContext } from '@/context/CustomizationContext';
 
 export default function Navbar() {
   const { navbarState, setNavbarState } = useNavbarContext();
+  const { setShowCustomization } = useCustomizationContext();
   const pathname = usePathname();
   const router = useRouter();
 
   const handleNavItemClick = (index: number) => {
     setNavbarState(NavbarItems[index]);
-    router.push(NavbarItems[index].route);
+    if (NavbarItems[index]?.route) {
+      router.push(NavbarItems[index].route);
+    } else {
+      if (NavbarItems[index].name === 'Customize') {
+        if (navbarState.name === 'Customize') {
+          setShowCustomization(false);
+          setNavbarState(NavbarItems[0]);
+        } else {
+          setShowCustomization(true);
+        }
+      }
+    }
   };
 
   useEffect(() => {
-    const index = NavbarItems.findIndex((item) => item.route === pathname);
+    const index = NavbarItems.findIndex(item => item.route === pathname);
     if (index !== -1) {
       setNavbarState(NavbarItems[index]);
     } else {
@@ -28,12 +41,15 @@ export default function Navbar() {
 
   return (
     <div className="flex flex-row justify-start items-center">
-      {NavbarItems.map((item, index) => (
+      {(pathname === '/'
+        ? NavbarItems
+        : NavbarItems.slice(0, NavbarItems.length - 1)
+      ).map((item, index) => (
         <div
           key={index}
           onClick={() => handleNavItemClick(index)}
           className={`${styles.navbarItem} ${
-            navbarState.name === item.name ? styles.navbarItemSelected : ""
+            navbarState.name === item.name ? styles.navbarItemSelected : ''
           }`}
         >
           <Image

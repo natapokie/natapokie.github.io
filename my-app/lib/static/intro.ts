@@ -4,8 +4,9 @@ import AboutIcon from "@/public/navbar/about.svg";
 import ProjectsIcon from "@/public/navbar/idea.svg";
 import ResumeIcon from "@/public/navbar/file.svg";
 import CustomizeIcon from "@/public/navbar/paint.svg";
+import { INavbarItem } from '@/lib/types/navbarTypes';
 
-export const NavbarItems = [
+export const NavbarItems: INavbarItem[] = [
   {
     name: "Home",
     icon: HomeIcon,
@@ -21,15 +22,13 @@ export const NavbarItems = [
     icon: ProjectsIcon,
     route: "/projects",
   },
-  {
-    name: "Resume",
-    icon: ResumeIcon,
-    route: "/resume",
-  },
+  // {
+  //   name: "Resume",
+  //   icon: ResumeIcon,
+  // },
   {
     name: "Customize",
     icon: CustomizeIcon,
-    route: "",
   },
 ]
 

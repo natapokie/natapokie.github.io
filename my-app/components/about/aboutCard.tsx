@@ -20,12 +20,6 @@ export default function AboutCard() {
 
       const containerHeight = container.offsetHeight;
       const windowHeight = window.innerHeight;
-      console.log(
-        "containerHeight",
-        containerHeight,
-        "windowHeight",
-        windowHeight
-      );
 
       setDisableScroll(containerHeight < windowHeight * SIZE_THRESHOLD);
       setMinOffset(-containerHeight / 4);
@@ -56,7 +50,7 @@ export default function AboutCard() {
   return (
     <div
       ref={cardRef}
-      className={`w-[70%] h-fit shadow-md ${styles.cardContainer}`}
+      className={`h-fit shadow-md ${styles.cardContainer}`}
       style={
         disableScroll
           ? {

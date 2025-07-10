@@ -1,21 +1,27 @@
 import { useEffect, useState } from 'react';
 import { CustomizationOptions } from '@/lib/static/customize';
-import {
-  useCustomizationContext,
-} from '@/context/CustomizationContext';
+import { useCustomizationContext } from '@/context/CustomizationContext';
 import {
   BubbleMenu,
   BubbleMenuStyle,
 } from '@/components/common/bubbleMenu/bubbleMenu';
 import styles from './customization.module.css';
+import { CustomizationCategory } from '@/lib/types/avatar';
+import { useNavbarContext } from '@/context/NavbarContext';
+import { NavbarItems } from '@/lib/static/intro';
 import Image from 'next/image';
-import CheckIcon from "@/public/icons/check-icon.svg";
-import {CustomizationCategory} from "@/lib/types/avatar";
+import CheckIcon from '@/public/icons/check-icon.svg';
 
 export const CustomizationWindow = () => {
-  const { customization, onSetCustomization } = useCustomizationContext();
+  const {
+    customization,
+    onSetCustomization,
+    showCustomization,
+    setShowCustomization,
+  } = useCustomizationContext();
+  const { setNavbarState } = useNavbarContext();
 
-  const [category, setCategory] = useState<CustomizationCategory>("hairstyle");
+  const [category, setCategory] = useState<CustomizationCategory>('hairstyle');
   const [optionIndices, setOptionIndices] = useState<number[]>([0]);
 
   const customBubbleStyles: BubbleMenuStyle = {
@@ -34,11 +40,10 @@ export const CustomizationWindow = () => {
   useEffect(() => {
     // load the selected options
     setOptionIndices(
-        Array.isArray(customization[category])
-          ? customization[category]
-          : [customization[category]]
-      );
-
+      Array.isArray(customization[category])
+        ? customization[category]
+        : [customization[category]]
+    );
   }, [category]);
 
   useEffect(() => {
@@ -66,32 +71,51 @@ export const CustomizationWindow = () => {
       setOptionIndices(curr => [...curr, i]);
     }
   };
+  const onCloseCustomization = () => {
+    setShowCustomization(false);
+    setNavbarState(NavbarItems[0]);
+  };
 
   return (
-    <div className="absolute w-full h-full grid place-content-center">
-      <div className="relative inset-0 sm:left-[-100%] w-[340px] h-[500px] bg-[var(--cavern-pink)] flex flex-col justify-start items-center rounded-[100px] px-[40px] pt-[25px] pb-[60px] gap-y-[20px]">
-        <BubbleMenu
-          menuItems={CustomizationOptions}
-          customStyles={customBubbleStyles}
-          onMenuSelect={category => onCategorySelect(category as CustomizationCategory)}
-        ></BubbleMenu>
-        <div className="w-full h-full flex justify-start overflow-y-auto">
-          <div className="w-full h-fit grid grid-cols-2 gap-4 p-[10px]">
-            {CustomizationOptions[category].options.map((option, index) => (
-              <div
-                key={index}
-                className={`${styles.optionBox} ${optionIndices.includes(index) ? styles.optionBoxSelected : ''}`}
-                onClick={() =>
-                  CustomizationOptions[category]?.multi
-                    ? onMultiOptionSelect(index)
-                    : onSingleOptionSelect(index)
-                }
-              >
-                {
-                  CustomizationOptions[category].multi ? optionIndices.includes(index) ? <div className={styles.checkIconContainer}>
-                    <span className={styles.checkIconText}>{optionIndices.indexOf(index) + 1}</span>
-                    </div> : <></>
-                     : optionIndices.includes(index) ? (
+    <>
+      <div
+        className={`absolute w-full h-full grid place-content-center bg-transparent ${!showCustomization ? 'pointer-events-none' : ''}`}
+        onClick={onCloseCustomization}
+      >
+        <div
+          className={`relative inset-0 sm:left-[-100%] w-[340px] h-[500px] bg-[var(--cavern-pink)] flex flex-col justify-start items-center rounded-[100px] px-[40px] pt-[25px] pb-[60px] gap-y-[20px] ${styles.baseContainer} ${!showCustomization ? styles.hide : styles.show}`}
+          onClick={e => e.stopPropagation()}
+        >
+          <BubbleMenu
+            menuItems={CustomizationOptions}
+            customStyles={customBubbleStyles}
+            onMenuSelect={category =>
+              onCategorySelect(category as CustomizationCategory)
+            }
+          ></BubbleMenu>
+          <div className="w-full h-full flex justify-start overflow-y-auto">
+            <div className="w-full h-fit grid grid-cols-2 gap-4 p-[10px]">
+              {CustomizationOptions[category].options.map((option, index) => (
+                <div
+                  key={index}
+                  className={`${styles.optionBox} ${optionIndices.includes(index) ? styles.optionBoxSelected : ''}`}
+                  onClick={() =>
+                    CustomizationOptions[category]?.multi
+                      ? onMultiOptionSelect(index)
+                      : onSingleOptionSelect(index)
+                  }
+                >
+                  {CustomizationOptions[category].multi ? (
+                    optionIndices.includes(index) ? (
+                      <div className={styles.checkIconContainer}>
+                        <span className={styles.checkIconText}>
+                          {optionIndices.indexOf(index) + 1}
+                        </span>
+                      </div>
+                    ) : (
+                      <></>
+                    )
+                  ) : optionIndices.includes(index) ? (
                     <div className={styles.checkIconContainer}>
                       <Image
                         alt="check-icon"
@@ -99,19 +123,21 @@ export const CustomizationWindow = () => {
                         className={styles.checkIcon}
                       ></Image>
                     </div>
-                  ) : <></>
-                }
+                  ) : (
+                    <></>
+                  )}
 
-                <Image
-                  alt={option.label}
-                  src={option.icon}
-                  className={styles.optionImage}
-                ></Image>
-              </div>
-            ))}
+                  <Image
+                    alt={option.label}
+                    src={option.icon}
+                    className={styles.optionImage}
+                  ></Image>
+                </div>
+              ))}
+            </div>
           </div>
         </div>
       </div>
-    </div>
+    </>
   );
 };
